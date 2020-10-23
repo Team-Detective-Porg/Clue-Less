@@ -1,0 +1,50 @@
+[
+    {
+        "pk": 1,
+        "model": "clue_less.weapon",
+        "fields": {
+            "name": "A knife",
+            "location": ""
+        }
+    },
+    {
+        "pk": 2,
+        "model": "clue_less.weapon",
+        "fields": {
+            "name": "Revolver",
+            "location": ""
+        }
+    },
+    {
+        "pk": 3,
+        "model": "clue_less.weapon",
+        "fields": {
+            "name": "Rope",
+            "location": ""
+        }
+    },
+    {
+        "pk": 4,
+        "model": "clue_less.weapon",
+        "fields": {
+            "name": "Wrench",
+            "location": ""
+        }
+    },
+    {
+        "pk": 5,
+        "model": "clue_less.weapon",
+        "fields": {
+            "name": "Candlestick",
+            "location": ""
+        }
+    },
+    {
+        "pk": 6,
+        "model": "clue_less.weapon",
+        "fields": {
+            "name": "Lead Pipe",
+            "location": ""
+        }
+    }
+]

@@ -1,0 +1,58 @@
+[
+    {
+        "pk": 1,
+        "model": "clue_less.character",
+        "fields": {
+            "name": "Mrs. White",
+            "location": ""
+        }
+    },
+    {
+        "pk": 2,
+        "model": "clue_less.character",
+        "fields": {
+            "name": "Mrs. Peacock",
+            "location": ""
+        }
+    },
+    {
+        "pk": 3,
+        "model": "clue_less.character",
+        "fields": {
+            "name": "Professor Plum",
+            "location": ""
+        }
+    },
+    {
+        "pk": 4,
+        "model": "clue_less.character",
+        "fields": {
+            "name": "Colonel Mustard",
+            "location": ""
+        }
+    },
+    {
+        "pk": 5,
+        "model": "clue_less.character",
+        "fields": {
+            "name": "Miss Scarlett",
+            "location": ""
+        }
+    },
+    {
+        "pk": 6,
+        "model": "clue_less.character",
+        "fields": {
+            "name": "Reverend Green",
+            "location": ""
+        }
+    },
+    {
+        "pk": 7,
+        "model": "clue_less.character",
+        "fields": {
+            "name": "Mr. Boddy",
+            "location": ""
+        }
+    }
+]
