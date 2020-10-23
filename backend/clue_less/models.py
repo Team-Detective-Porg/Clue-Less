@@ -10,3 +10,11 @@ class Character(models.Model):
 
     def _str_(self):
         return self.name
+
+
+class Room(models.Model):
+    name = models.CharField(max_length=120)
+    holder = models.ForeignKey("User", on_delete=models.SET_NULL, blank=True)
+
+    def _str_(self):
+        return self.name
