@@ -19,8 +19,8 @@ from rest_framework import routers
 from clue_less import views
 
 router = routers.DefaultRouter()
-router.register(r"character", views.CharacterView, "character")
-router.register(r"room", views.RoomView, "room")
-router.register(r"weapon", views.WeaponView, "weapon")
+router.register(r"characters", views.CharacterView, "character")
+router.register(r"rooms", views.RoomView, "room")
+router.register(r"weapons", views.WeaponView, "weapon")
 
 urlpatterns = [path("admin/", admin.site.urls), path("api/", include(router.urls))]
