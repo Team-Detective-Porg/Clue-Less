@@ -1,0 +1,5 @@
+black
+django
+djangorestframework
+django-cors-headers
+flake8
