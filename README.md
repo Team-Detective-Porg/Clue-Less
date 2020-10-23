@@ -4,7 +4,7 @@ This game is a simplified version of the popular board game, Clue®. The main si
 
 # Backend Build
 
-Run the following commands to establish the backend for Clue-Less
+Run the following commands to establish the backend for Clue-Less. Run these commands from the repository root directory. 
 
 1. Build the database migrations.
 
