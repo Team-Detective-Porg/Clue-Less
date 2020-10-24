@@ -21,6 +21,7 @@ from clue_less import views
 router = routers.DefaultRouter()
 router.register(r"characters", views.CharacterView, "character")
 router.register(r"rooms", views.RoomView, "room")
+router.register(r"players", views.PlayerView, "player")
 router.register(r"weapons", views.WeaponView, "weapon")
 
 urlpatterns = [path("admin/", admin.site.urls), path("api/", include(router.urls))]

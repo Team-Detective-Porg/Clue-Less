@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Character, Room, Weapon
+from .models import Character, Player, Room, Weapon
 
 
 # Create Character Admin interface
@@ -16,6 +16,14 @@ class RoomAdmin(admin.ModelAdmin):
 
 
 admin.site.register(Room, RoomAdmin)
+
+
+# Create Player Admin interface
+class PlayerAdmin(admin.ModelAdmin):
+    list_display = ("active", "game_session", "user_character", "user_name")
+
+
+admin.site.register(Player, PlayerAdmin)
 
 
 # Create Weapon Admin interface

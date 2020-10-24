@@ -16,9 +16,18 @@ class Character(models.Model):
         return self.name
 
 
-# TODO Replace this placeholder that is used to allow Foreign Keys to work.
 class Player(models.Model):
-    name = models.CharField(max_length=120)
+    active = models.BooleanField(default=True)
+    game_session = models.ForeignKey(
+        "Session",
+        on_delete=models.CASCADE,
+    )
+    user_character = models.ForeignKey(
+        "Character",
+        on_delete=models.PROTECT,
+        blank=False,
+    )  # TODO Validator to ensure character is unused.
+    user_name = models.CharField(max_length=120, blank=False, unique=True)
 
     def _str_(self):
         return self.name
@@ -32,6 +41,16 @@ class Room(models.Model):
 
     def _str_(self):
         return self.name
+
+
+class Session(models.Model):
+    character = models.ForeignKey(
+        "Character", on_delete=models.SET_NULL, blank=True, null=True
+    )
+    room = models.ForeignKey("Room", on_delete=models.SET_NULL, blank=True, null=True)
+    weapon = models.ForeignKey(
+        "Weapon", on_delete=models.SET_NULL, blank=True, null=True
+    )
 
 
 class Weapon(models.Model):

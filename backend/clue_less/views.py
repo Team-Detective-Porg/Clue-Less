@@ -1,12 +1,21 @@
-from django.shortcuts import render
 from rest_framework import viewsets
-from .serializers import CharacterSerializer, RoomSerializer, WeaponSerializer
-from .models import Character, Room, Weapon
+from .serializers import (
+    CharacterSerializer,
+    PlayerSerializer,
+    RoomSerializer,
+    WeaponSerializer,
+)
+from .models import Character, Player, Room, Weapon
 
 
 class CharacterView(viewsets.ModelViewSet):
     serializer_class = CharacterSerializer
     queryset = Character.objects.all()
+
+
+class PlayerView(viewsets.ModelViewSet):
+    serializer_class = PlayerSerializer
+    queryset = Player.objects.all()
 
 
 class RoomView(viewsets.ModelViewSet):

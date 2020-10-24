@@ -34,9 +34,19 @@ This object represents the characters from Clue in both the card and the locatio
 | location | The current location of the character on the game board. This defaults to the initial starting point for each character. | string | yes |
 | holder | The user that is currently holding the character's game card following the distribution of cards. | foreign key | no |
 
+### Players
+This object represents the players within a session.
+
+| Name | Description | Type | Required |
+|------|-------------|:----:|:---------|
+| pk | The primary key, commonly know as the id, used to uniquely identify an entry. | int | yes |
+| active | Indicates if the player is active. A player becomes in active when the make an incorrect accusation. | boolean | yes |
+| game_session | A foreign key that indicates the game session that the player is connected to. | foreign key | yes |
+| user_character | A foreign key that indicates the character the user is playing as. | foreign key | yes |
+| user_name | The unique name the player chooses to use during the game. | string | yes |
 
 ### Rooms
-THis object represents the rooms' card from Clue.
+This object represents the rooms' card from Clue.
 
 | Name | Description | Type | Required |
 |------|-------------|:----:|:---------|
