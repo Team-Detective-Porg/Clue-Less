@@ -5,19 +5,26 @@ import TextField from '@material-ui/core/TextField';
 import MenuItem from '@material-ui/core/MenuItem';
 import Button from '@material-ui/core/Button';
 
+// Update drop down list to only be available characters
+// Push username and character to server
+// Print all player choices to screen
+
 
 export default function App() {
   // State information
   const [characterData, setCharacterData] = useState([]);
   const [weaponData, setWeaponData] = useState([]);
-  const [userName, setUserName] = useState("");
-  const [userCharacter, setUserCharacter] = useState("");
-  const [userWeapon, setUserWeapon] = useState("");
+
+  const [userSelections, setUserSelections] = useState({
+    userName: "",
+    character: ""
+  });
+
 
   useEffect(() => {
     // Load character data from server
     axios
-      .get("http://localhost:8000/api/characters")
+      .get("http://localhost:8000/api/characters/?available=True")
       .then(response => setCharacterData(response.data))
       .catch(error => console.log(error))
 
@@ -38,7 +45,7 @@ export default function App() {
         <TextField
           label="Username"
           variant="outlined"
-          onChange={(event) => {setUserName(event.target.value)}}
+          onChange={event => setUserSelections({...userSelections, userName: event.target.value})}
         />
       </Grid>
 
@@ -46,9 +53,9 @@ export default function App() {
         <TextField
           select
           label="Character"
-          value={userCharacter}
+          value={userSelections.character}
           variant="outlined"
-          onChange={(event) => {setUserCharacter(event.target.value)}}
+          onChange={event => setUserSelections({...userSelections, character: event.target.value})}
           style={{width:"20ch"}}
         >
         {characterData.map((char) => 
@@ -57,7 +64,7 @@ export default function App() {
         </TextField>
       </Grid>
 
-      <Grid item>
+      {/* <Grid item>
         <TextField
           select
           label="Weapon"
@@ -70,10 +77,10 @@ export default function App() {
           (<MenuItem key={weapon.name} value={weapon.name}>{weapon.name}</MenuItem>)
         )}
         </TextField>
-      </Grid>
+      </Grid> */}
 
       <Grid item>
-        <Button color="primary" variant="contained" onClick={()=>{console.log(userName); console.log(userCharacter); console.log(userWeapon)}}>
+        <Button color="primary" variant="contained" onClick={()=>console.log(userSelections)}>
           Submit
         </Button>
       </Grid>
