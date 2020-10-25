@@ -117,9 +117,11 @@ export default function Homepage(props) {
                         </TableHead>
 
                         <TableBody>
-                            <TableCell>Test</TableCell>
-                            <TableCell>Test</TableCell>
-                            <TableCell>Test</TableCell>
+                            <TableRow>
+                                <TableCell>Test</TableCell>
+                                <TableCell>Test</TableCell>
+                                <TableCell>Test</TableCell>
+                            </TableRow>
 
                             {/* {rows.map((row) => (
                                 <TableRow key={row.name}>
