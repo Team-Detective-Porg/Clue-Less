@@ -12,7 +12,7 @@ Run the following commands to establish the backend for Clue-Less. Run these com
 
 2. Migrate the database.
 
-    `python backend/manage.py migrat`
+    `python backend/manage.py migrate`
 
 3. Load the default game items.
 
