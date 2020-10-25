@@ -54,6 +54,16 @@ This object represents the rooms' card from Clue.
 | name | The name of the room as known in the standard Clue game. | string | yes |
 | holder | The user that is currently holding the room's game card following the distribution of cards. | foreign key | no |
 
+### Session
+This object represents a game session to support tracking all other objects from a single game.
+
+| Name | Description | Type | Required |
+|------|-------------|:----:|:---------|
+| pk | The primary key, commonly know as the id, used to uniquely identify an entry. | int | yes |
+| character | The character that committed the murder and is part of the winning accusation. | foreign key | no |
+| room | The room that the murder was committed in and is part of the winning accusation. | foreign key | no |
+| weapon | The weapon used in the murder and part of the winning accusation. | foreign key | no |
+
 ### Weapons
 This object represents the weapon's location and card from Clue.
 

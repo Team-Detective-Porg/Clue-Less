@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import Character, Player, Room, Weapon
+from .models import Character, Player, Room, Session, Weapon
 
 
 class CharacterSerializer(serializers.ModelSerializer):
@@ -18,6 +18,12 @@ class RoomSerializer(serializers.ModelSerializer):
     class Meta:
         model = Room
         fields = ("id", "holder", "name")
+
+
+class SessionSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Session
+        fields = ("id", "character", "room", "weapon")
 
 
 class WeaponSerializer(serializers.ModelSerializer):
