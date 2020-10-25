@@ -21,6 +21,15 @@ Run the following commands to establish the backend for Clue-Less. Run these com
 4. Run the server.
 
     `python backend/manage.py runserver`
+    
+## Frontend Build
+1. Navigate to frontend directory
+
+2. Start the React app
+
+    `npm start`
+    
+This will start up a React app on localhost:8000. Any changes to the front end code will automatically update your local site.
 
 ## Data Dictionary
 
