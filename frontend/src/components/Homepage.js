@@ -14,9 +14,10 @@ import Paper from '@material-ui/core/Paper';
 
 
 export default function Homepage(props) {
+    var jsonQuery = require('json-query');
+
     // State information
     const [characterData, setCharacterData] = useState([]);
-    const [weaponData, setWeaponData] = useState([]);
 
     const [userSelections, setUserSelections] = useState({
         userName: "",
@@ -42,12 +43,21 @@ export default function Homepage(props) {
             method: 'post',
             url: 'http://localhost:8000/api/players',
             data: {
+                pk: jsonQuery(`characterData[name=${userSelections.character}].id`, {data: {characterData}}).value,
                 active: true,
                 game_session: 1,
                 user_character: userSelections.character,
                 user_name: userSelections.userName
             }
         });
+
+        console.log({
+            pk: jsonQuery(`characterData[name=${userSelections.character}].id`, {data: {characterData}}).value,
+            active: true,
+            game_session: 1,
+            user_character: userSelections.character,
+            user_name: userSelections.userName
+        })
     }
 
     return (
@@ -74,29 +84,14 @@ export default function Homepage(props) {
                             variant="outlined"
                             onChange={event => setUserSelections({...userSelections, character: event.target.value})}
                             style={{width:"20ch"}}
-                            >
+                        >
                             {characterData.map((char) => 
-                            (<MenuItem key={char.name} value={char.name}>{char.name}</MenuItem>)
+                                (<MenuItem key={char.name} value={char.name}>{char.name}</MenuItem>)
                             )}
                         </TextField>
                     </Grid>
                 </Grid>
             </Grid>
-
-            {/* <Grid item>
-                <TextField
-                select
-                label="Weapon"
-                value={userWeapon}
-                variant="outlined"
-                onChange={(event) => {setUserWeapon(event.target.value)}}
-                style={{width:"20ch"}}
-                >
-                {weaponData.map((weapon) => 
-                (<MenuItem key={weapon.name} value={weapon.name}>{weapon.name}</MenuItem>)
-                )}
-                </TextField>
-            </Grid> */}
 
             <Grid item>
                 <Button color="primary" variant="contained" onClick={handleSubmit}>
