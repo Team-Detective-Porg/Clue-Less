@@ -30,12 +30,6 @@ export default function Homepage(props) {
             .get("http://localhost:8000/api/characters/?available=True")
             .then(response => setCharacterData(response.data))
             .catch(error => console.log(error))
-
-        // Load weapons data from server
-        axios
-            .get("http://localhost:8000/api/weapons")
-            .then(response => setWeaponData(response.data))
-            .catch(error => console.log(error))
     }, []);
 
     const handleSubmit = () => {
