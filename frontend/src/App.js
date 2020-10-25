@@ -17,7 +17,7 @@ export default function App() {
   useEffect(() => {
     // Load character data from server
     axios
-      .get("http://localhost:8000/api/characters/")
+      .get("http://localhost:8000/api/characters")
       .then(response => setCharacterData(response.data))
       .catch(error => console.log(error))
 
@@ -27,17 +27,6 @@ export default function App() {
       .then(response => setWeaponData(response.data))
       .catch(error => console.log(error))
   }, []);
-
-  // Validation of character and 
-
-  /**
-   * DISCUSSION:
-   * 
-   * How to send user character/weapon choices to server - client api call?
-   * 
-   * How to valid players choosing the same character - need to take trip to server and back. How does this affect the UI? 
-   * Make one player wait as another chooses? Easier route - error message saying option already chosen.
-   */
 
   return (
     <Grid container spacing={3} direction="column" alignItems="center" alignContent="center">
