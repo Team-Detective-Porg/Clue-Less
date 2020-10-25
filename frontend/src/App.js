@@ -38,7 +38,7 @@ export default function App() {
    * How to valid players choosing the same character - need to take trip to server and back. How does this affect the UI? 
    * Make one player wait as another chooses? Easier route - error message saying option already chosen.
    */
-  
+
   return (
     <Grid container spacing={3} direction="column" alignItems="center" alignContent="center">
       <Grid item>
@@ -72,7 +72,7 @@ export default function App() {
         <TextField
           select
           label="Weapon"
-          value={userCharacter}
+          value={userWeapon}
           variant="outlined"
           onChange={(event) => {setUserWeapon(event.target.value)}}
           style={{width:"20ch"}}
