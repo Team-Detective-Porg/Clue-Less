@@ -12,12 +12,33 @@ export default function App() {
   const [weaponData, setWeaponData] = useState([]);
   const [userName, setUserName] = useState("");
   const [userCharacter, setUserCharacter] = useState("");
+  const [userWeapon, setUserWeapon] = useState("");
 
   useEffect(() => {
-    // Loading initial game data
-    axios.get("http://localhost:8000/api/characters/").then(response => setCharacterData(response.data)).catch(error => console.log(error))
+    // Load character data from server
+    axios
+      .get("http://localhost:8000/api/characters/")
+      .then(response => setCharacterData(response.data))
+      .catch(error => console.log(error))
+
+    // Load weapons data from server
+    axios
+      .get("http://localhost:8000/api/weapons")
+      .then(response => setWeaponData(response.data))
+      .catch(error => console.log(error))
   }, []);
 
+  // Validation of character and 
+
+  /**
+   * DISCUSSION:
+   * 
+   * How to send user character/weapon choices to server - client api call?
+   * 
+   * How to valid players choosing the same character - need to take trip to server and back. How does this affect the UI? 
+   * Make one player wait as another chooses? Easier route - error message saying option already chosen.
+   */
+  
   return (
     <Grid container spacing={3} direction="column" alignItems="center" alignContent="center">
       <Grid item>
@@ -39,6 +60,7 @@ export default function App() {
           value={userCharacter}
           variant="outlined"
           onChange={(event) => {setUserCharacter(event.target.value)}}
+          style={{width:"20ch"}}
         >
         {characterData.map((char) => 
           (<MenuItem key={char.name} value={char.name}>{char.name}</MenuItem>)
@@ -47,7 +69,24 @@ export default function App() {
       </Grid>
 
       <Grid item>
-        <Button color="primary" variant="contained" onClick={()=>{console.log(userCharacter); console.log(userName)}}>Submit</Button>
+        <TextField
+          select
+          label="Weapon"
+          value={userCharacter}
+          variant="outlined"
+          onChange={(event) => {setUserWeapon(event.target.value)}}
+          style={{width:"20ch"}}
+        >
+        {weaponData.map((weapon) => 
+          (<MenuItem key={weapon.name} value={weapon.name}>{weapon.name}</MenuItem>)
+        )}
+        </TextField>
+      </Grid>
+
+      <Grid item>
+        <Button color="primary" variant="contained" onClick={()=>{console.log(userName); console.log(userCharacter); console.log(userWeapon)}}>
+          Submit
+        </Button>
       </Grid>
 
     </Grid>
