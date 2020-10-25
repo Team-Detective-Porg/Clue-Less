@@ -44,8 +44,8 @@ export default function Homepage(props) {
             data: {
                 active: true,
                 game_session: 1,
-                user_character: userSelections.userName,
-                user_name: userSelections.character
+                user_character: userSelections.character,
+                user_name: userSelections.userName
             }
         });
     }
@@ -60,24 +60,24 @@ export default function Homepage(props) {
                 <Grid container spacing={3} direction="row">
                     <Grid item>
                         <TextField
-                        label="Username"
-                        variant="outlined"
-                        onChange={event => setUserSelections({...userSelections, userName: event.target.value})}
+                            label="Username"
+                            variant="outlined"
+                            onChange={event => setUserSelections({...userSelections, userName: event.target.value})}
                         />
                     </Grid>
 
                     <Grid item>
                         <TextField
-                        select
-                        label="Character"
-                        value={userSelections.character}
-                        variant="outlined"
-                        onChange={event => setUserSelections({...userSelections, character: event.target.value})}
-                        style={{width:"20ch"}}
-                        >
-                        {characterData.map((char) => 
-                        (<MenuItem key={char.name} value={char.name}>{char.name}</MenuItem>)
-                        )}
+                            select
+                            label="Character"
+                            value={userSelections.character}
+                            variant="outlined"
+                            onChange={event => setUserSelections({...userSelections, character: event.target.value})}
+                            style={{width:"20ch"}}
+                            >
+                            {characterData.map((char) => 
+                            (<MenuItem key={char.name} value={char.name}>{char.name}</MenuItem>)
+                            )}
                         </TextField>
                     </Grid>
                 </Grid>
