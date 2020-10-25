@@ -35,21 +35,19 @@ export default function Homepage(props) {
     const handleSubmit = () => {
         axios({
             method: 'post',
-            url: 'http://localhost:8000/api/players',
+            url: 'http://localhost:8000/api/players/',
             data: {
-                pk: jsonQuery(`characterData[name=${userSelections.character}].id`, {data: {characterData}}).value,
+                user_character: jsonQuery(`characterData[name=${userSelections.character}].id`, {data: {characterData}}).value,
                 active: true,
                 game_session: 1,
-                user_character: userSelections.character,
                 user_name: userSelections.userName
             }
         });
 
         console.log({
-            pk: jsonQuery(`characterData[name=${userSelections.character}].id`, {data: {characterData}}).value,
+            user_character: jsonQuery(`characterData[name=${userSelections.character}].id`, {data: {characterData}}).value,
             active: true,
             game_session: 1,
-            user_character: userSelections.character,
             user_name: userSelections.userName
         })
     }
