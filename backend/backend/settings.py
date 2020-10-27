@@ -40,6 +40,9 @@ INSTALLED_APPS = [
     "clue_less",
     "corsheaders",
     "rest_framework",
+    "backend",
+    #3rd party
+    'channels',
 ]
 
 MIDDLEWARE = [
@@ -72,6 +75,10 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = "backend.wsgi.application"
+
+ASGI_APPLICATION = "backend.routing.application"
+
+CHANNEL_LAYERs = {}
 
 
 # Database

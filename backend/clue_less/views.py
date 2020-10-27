@@ -8,6 +8,7 @@ from .serializers import (
 )
 from .models import Character, Player, Room, Session, Weapon
 
+from django.shortcuts import render
 
 class CharacterView(viewsets.ModelViewSet):
     serializer_class = CharacterSerializer
