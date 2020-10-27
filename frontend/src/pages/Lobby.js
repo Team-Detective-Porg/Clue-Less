@@ -9,6 +9,7 @@ import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
 import Button from '@material-ui/core/Button';
 import { Link } from "react-router-dom";
+import WebSocketInstance from '../WebSocket'
 
 
 export default function Lobby(props) {

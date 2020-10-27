@@ -5,6 +5,8 @@ import TextField from '@material-ui/core/TextField';
 import MenuItem from '@material-ui/core/MenuItem';
 import Button from '@material-ui/core/Button';
 import { Link } from "react-router-dom";
+import moment from 'react'
+import WebSocketInstance from '../WebSocket'
 
 
 export default function Homepage(props) {
@@ -17,8 +19,9 @@ export default function Homepage(props) {
         userName: "",
         character: ""
     });
-
+    
     useEffect(() => {
+        WebSocketInstance.connect();
         // Load character data from server
         axios
             .get("http://localhost:8000/api/characters/?available=True")
@@ -27,6 +30,12 @@ export default function Homepage(props) {
     }, []);
 
     const handleSubmit = () => {
+        const data = ({
+            user_character: jsonQuery(`characterData[name=${userSelections.character}].id`, {data: {characterData}}).value,
+            active: true,
+            game_session: 1,
+            user_name: userSelections.userName
+        });
         axios({
             method: 'post',
             url: 'http://localhost:8000/api/players/',
