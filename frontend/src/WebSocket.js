@@ -65,26 +65,12 @@ class WebSocketService {
     this.callbacks['messages'] = messagesCallback;
     this.callbacks['new_message'] = newMessageCallback;
   }
-  
-  sendMessage(data) {
-    try {
-      this.socketRef.send(JSON.stringify({ ...data }));
-    }
-    catch(err) {
-      console.log(err.message);
-    }  
-  }
 
-  state() {
-    return this.socketRef.readyState;
-  }
-
-   waitForSocketConnection(callback){
-    const socket = this.socketRef;
+  waitForSocketConnection(callback){
     const recursion = this.waitForSocketConnection;
     setTimeout(
       function () {
-        if (socket.readyState === 1) {
+        if (this.readyState === 1) {
           console.log("Connection is made")
           if(callback != null){
             callback();
@@ -96,6 +82,30 @@ class WebSocketService {
           recursion(callback);
         }
       }, 1); // wait 5 milisecond for the connection...
+  }
+
+  sendMessage (data) {
+    if (this.readyState !== this.OPEN) {
+        try {
+          this.waitForSocketConnection(
+            this.send(JSON.stringify({ ...data })))
+        } catch (err) { console.error(err) }
+    } else {
+        this.send(JSON.stringify({ ...data }))
+    }
+  }
+
+  sendMessage(data) {
+    try {
+      console.log(data);
+    }
+    catch(err) {
+      console.log(err.message);
+    }  
+  }
+
+  state() {
+    return this.socketRef.readyState;
   }
 
 }

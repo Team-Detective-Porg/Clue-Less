@@ -21,7 +21,6 @@ export default function Homepage(props) {
     });
     
     useEffect(() => {
-        WebSocketInstance.connect();
         // Load character data from server
         axios
             .get("http://localhost:8000/api/characters/?available=True")
@@ -29,8 +28,10 @@ export default function Homepage(props) {
             .catch(error => console.log(error))
     }, []);
 
+    let data = {};
+
     const handleSubmit = () => {
-        const data = ({
+        data = ({
             user_character: jsonQuery(`characterData[name=${userSelections.character}].id`, {data: {characterData}}).value,
             active: true,
             game_session: 1,
@@ -89,7 +90,7 @@ export default function Homepage(props) {
             </Grid>
 
             <Grid item>
-                <Link to="/lobby">
+                <Link to={{pathname: "/lobby", state: {userName: userSelections.userName, character: jsonQuery(`characterData[name=${userSelections.character}].id`, {data: {characterData}}).value}}}>
                     <Button color="primary" variant="contained" onClick={handleSubmit}>
                         Submit
                     </Button>

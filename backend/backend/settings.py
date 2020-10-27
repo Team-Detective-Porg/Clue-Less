@@ -78,7 +78,11 @@ WSGI_APPLICATION = "backend.wsgi.application"
 
 ASGI_APPLICATION = "backend.routing.application"
 
-CHANNEL_LAYERs = {}
+CHANNEL_LAYERS={
+    "default": {
+        "BACKEND": "channels.layers.InMemoryChannelLayer"
+     }
+}
 
 
 # Database

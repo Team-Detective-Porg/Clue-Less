@@ -27,7 +27,7 @@ class ChatConsumer(WebsocketConsumer):
         """
         
         text_data_json = json.loads(text_data)
-        message = text_data_json['message']
+        message = text_data_json['user_character']
         utc_time = datetime.datetime.now(datetime.timezone.utc)
         utc_time = utc_time.isoformat()
 

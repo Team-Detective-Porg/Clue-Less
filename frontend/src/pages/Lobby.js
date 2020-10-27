@@ -1,4 +1,5 @@
 import React from 'react';
+import { useState, useEffect } from "react";
 import { Grid } from '@material-ui/core';
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
@@ -13,6 +14,13 @@ import WebSocketInstance from '../WebSocket'
 
 
 export default function Lobby(props) {
+
+    useEffect(() => {
+        WebSocketInstance.connect();
+        var test = props.location.state;
+        console.log(test);
+        WebSocketInstance.sendMessage(WebSocketInstance, test);
+    });
 
     return (
         <Grid container spacing={7} direction="column" alignItems="center">
