@@ -41,8 +41,8 @@ INSTALLED_APPS = [
     "corsheaders",
     "rest_framework",
     "backend",
-    #3rd party
-    'channels',
+    # 3rd party
+    "channels",
 ]
 
 MIDDLEWARE = [
@@ -136,3 +136,12 @@ STATIC_URL = "/static/"
 
 # TODO Adjust port as needed
 CORS_ORIGIN_WHITELIST = ["http://localhost:3000"]
+
+CHANNEL_LAYERS = {
+    "default": {
+        "BACKEND": "channels_redis.core.RedisChannelLayer",
+        "CONFIG": {
+            "hosts": [("localhost", 6379)],
+        },
+    },
+}

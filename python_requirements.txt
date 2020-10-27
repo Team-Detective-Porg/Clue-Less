@@ -1,4 +1,6 @@
 black
+channels
+channels_redis
 django
 djangorestframework
 django-cors-headers
