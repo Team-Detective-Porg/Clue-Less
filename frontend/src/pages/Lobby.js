@@ -51,7 +51,8 @@ export default function Lobby(props) {
     function handleIncomingData(data){
         const user = [{
             userName: data.userName,
-            character: data.character
+            character: data.character,
+            utc_time: data.utc_time
         }]
         setUserSelections(user);
         console.log('userSelections: ' + userSelections);
@@ -74,7 +75,7 @@ export default function Lobby(props) {
                     <Table>
                         <TableHead>
                             <TableRow>
-                                <TableCell>Player</TableCell>
+                                <TableCell>Time Joined</TableCell>
                                 <TableCell>Username</TableCell>
                                 <TableCell>Character</TableCell>
                             </TableRow>
@@ -83,7 +84,7 @@ export default function Lobby(props) {
                         <TableBody> 
                             {userSelections.map((user) => (
                             <TableRow>
-                                <TableCell></TableCell>
+                                <TableCell>{user.utc_time}</TableCell>
                                 <TableCell>{user.userName}</TableCell>
                                 <TableCell>{user.character}</TableCell>
                             </TableRow>
