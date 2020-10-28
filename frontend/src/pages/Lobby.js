@@ -16,8 +16,6 @@ import WebSocketInstance from '../WebSocket'
 export default function Lobby(props) {
 
     // State information
-    const [characterData, setCharacterData] = useState([]);
-
     const [userSelections, setUserSelections] = useState([]);
 
     useEffect(() => {
@@ -49,13 +47,7 @@ export default function Lobby(props) {
     }
 
     function handleIncomingData(data){
-        const user = {
-            userName: data.userName,
-            character: data.character,
-            utc_time: data.utc_time
-        }
-        setUserSelections([...userSelections, user]);
-        console.log(props.location.state.userSelections);
+        setUserSelections(data.player_list);
     }
 
     function addCallbacks() {
@@ -75,18 +67,16 @@ export default function Lobby(props) {
                     <Table>
                         <TableHead>
                             <TableRow>
-                                <TableCell>Time Joined</TableCell>
                                 <TableCell>Username</TableCell>
                                 <TableCell>Character</TableCell>
                             </TableRow>
                         </TableHead>
-                        {console.log(userSelections)}
+
                         <TableBody> 
                             {userSelections.map((user, index) => (
                             <TableRow key={index}>
-                                <TableCell>{user.utc_time}</TableCell>
-                                <TableCell>{user.userName}</TableCell>
-                                <TableCell>{user.character}</TableCell>
+                                <TableCell>{user.user_name}</TableCell>
+                                <TableCell>{user.user_character}</TableCell>
                             </TableRow>
                             ))}
                         </TableBody>
