@@ -49,13 +49,13 @@ export default function Lobby(props) {
     }
 
     function handleIncomingData(data){
-        const user = [{
+        const user = {
             userName: data.userName,
             character: data.character,
             utc_time: data.utc_time
-        }]
-        setUserSelections(user);
-        console.log('userSelections: ' + userSelections);
+        }
+        setUserSelections([...userSelections, user]);
+        console.log(props.location.state.userSelections);
     }
 
     function addCallbacks() {
@@ -80,10 +80,10 @@ export default function Lobby(props) {
                                 <TableCell>Character</TableCell>
                             </TableRow>
                         </TableHead>
-
+                        {console.log(userSelections)}
                         <TableBody> 
-                            {userSelections.map((user) => (
-                            <TableRow>
+                            {userSelections.map((user, index) => (
+                            <TableRow key={index}>
                                 <TableCell>{user.utc_time}</TableCell>
                                 <TableCell>{user.userName}</TableCell>
                                 <TableCell>{user.character}</TableCell>

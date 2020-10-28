@@ -8,6 +8,7 @@ from .models import *
 from channels.generic.websocket import WebsocketConsumer, JsonWebsocketConsumer
 from channels.consumer import AsyncConsumer
 from channels.layers import get_channel_layer
+from .serializers import *
 
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
@@ -48,7 +49,9 @@ class ChatConsumer(WebsocketConsumer):
         """
         Receive a broadcast message and send it over a websocket
         """
-        
+        players = PlayerSerializer(list(Player.objects.all()), many=True)
+        logger.info(players)
+
         character = event['character']
         userName = event['userName']
         utc_time = event['utc_time']
@@ -56,9 +59,7 @@ class ChatConsumer(WebsocketConsumer):
         # Send message to WebSocket
         self.send(text_data=json.dumps({
             'type': 'chat.message',
-            'character': character,
-            'userName': userName,
-            'utc_time': utc_time,
+            'player_list': players.data
         }))
 
 class LobbyConsumer(JsonWebsocketConsumer):
