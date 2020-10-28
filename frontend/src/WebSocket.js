@@ -37,15 +37,14 @@ class WebSocketService {
 
   socketNewMessage(data) {
     const parsedData = JSON.parse(data);
-    const command = parsedData.command;
+    console.log('Data back from channel: ' + data);
+    const type = parsedData.type;
     if (Object.keys(this.callbacks).length === 0) {
       return;
     }
-    if (command === 'messages') {
-      this.callbacks[command](parsedData.messages);
-    }
-    if (command === 'new_message') {
-      this.callbacks[command](parsedData.message);
+    if (type === 'chat.message') {
+      console.log(this.callbacks[type])
+      this.callbacks[type](parsedData);
     }
   }
 
@@ -61,16 +60,17 @@ class WebSocketService {
     this.sendMessage({ command: 'new_message', from: message.from, text: message.text }); 
   }
 
-  addCallbacks(messagesCallback, newMessageCallback) {
-    this.callbacks['messages'] = messagesCallback;
-    this.callbacks['new_message'] = newMessageCallback;
+  addCallbacks(key, callback) {
+    this.callbacks[key] = callback;
+    console.log(this.callbacks);
   }
 
   waitForSocketConnection(callback){
+    const socket = this.socketRef;
     const recursion = this.waitForSocketConnection;
     setTimeout(
       function () {
-        if (this.readyState === 1) {
+        if (socket.readyState === 1) {
           console.log("Connection is made")
           if(callback != null){
             callback();
@@ -83,21 +83,10 @@ class WebSocketService {
         }
       }, 1); // wait 5 milisecond for the connection...
   }
-
-  sendMessage (data) {
-    if (this.readyState !== this.OPEN) {
-        try {
-          this.waitForSocketConnection(
-            this.send(JSON.stringify({ ...data })))
-        } catch (err) { console.error(err) }
-    } else {
-        this.send(JSON.stringify({ ...data }))
-    }
-  }
-
+  
   sendMessage(data) {
     try {
-      console.log(data);
+      this.socketRef.send(JSON.stringify({ ...data }));
     }
     catch(err) {
       console.log(err.message);

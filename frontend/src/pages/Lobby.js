@@ -15,12 +15,51 @@ import WebSocketInstance from '../WebSocket'
 
 export default function Lobby(props) {
 
+    // State information
+    const [characterData, setCharacterData] = useState([]);
+
+    const [userSelections, setUserSelections] = useState([]);
+
     useEffect(() => {
         WebSocketInstance.connect();
-        var test = props.location.state;
-        console.log(test);
-        WebSocketInstance.sendMessage(WebSocketInstance, test);
-    });
+        addCallbacks();
+        waitForSocketConnection(sendMessage);
+        console.log(userSelections);
+    }, []);
+
+    function waitForSocketConnection(callback) {
+        setTimeout(() => {
+        if (WebSocketInstance.state() === 1) {
+            callback();
+        } else {
+            waitForSocketConnection(callback);
+        }
+        }, 100);
+    }
+
+    function sendMessage() {
+        var data = props.location.state;
+        console.log(data);
+        try {
+            WebSocketInstance.sendMessage(data);
+        }
+        catch(err) {
+            console.log(err.message);
+        }  
+    }
+
+    function handleIncomingData(data){
+        const user = [{
+            userName: data.userName,
+            character: data.character
+        }]
+        setUserSelections(user);
+        console.log('userSelections: ' + userSelections);
+    }
+
+    function addCallbacks() {
+        WebSocketInstance.addCallbacks('chat.message', handleIncomingData);
+    }
 
     return (
         <Grid container spacing={7} direction="column" alignItems="center">
@@ -41,12 +80,14 @@ export default function Lobby(props) {
                             </TableRow>
                         </TableHead>
 
-                        <TableBody>
+                        <TableBody> 
+                            {userSelections.map((user) => (
                             <TableRow>
-                                <TableCell>Static placeholder</TableCell>
-                                <TableCell>Static placeholder</TableCell>
-                                <TableCell>Static placeholder</TableCell>
+                                <TableCell></TableCell>
+                                <TableCell>{user.userName}</TableCell>
+                                <TableCell>{user.character}</TableCell>
                             </TableRow>
+                            ))}
                         </TableBody>
                         {/* {
                             Depending on how the data comes back you can use a mapping function to generate table rows/cells

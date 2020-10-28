@@ -7,6 +7,7 @@ from asgiref.sync import async_to_sync
 from .models import *
 from channels.generic.websocket import WebsocketConsumer, JsonWebsocketConsumer
 from channels.consumer import AsyncConsumer
+from channels.layers import get_channel_layer
 
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
@@ -20,6 +21,7 @@ class ChatConsumer(WebsocketConsumer):
     def disconnect(self, close_code):
         async_to_sync(self.channel_layer.group_discard)("lobby", self.channel_name)
 
+
     def receive(self, text_data):
         """
         Receive a message and broadcast it to a room group
@@ -27,17 +29,19 @@ class ChatConsumer(WebsocketConsumer):
         """
         
         text_data_json = json.loads(text_data)
-        message = text_data_json['user_character']
+        character = text_data_json['character']
+        userName = text_data_json['userName']
         utc_time = datetime.datetime.now(datetime.timezone.utc)
         utc_time = utc_time.isoformat()
-
+        
         async_to_sync(self.channel_layer.group_send)(
-            self.send(text_data=json.dumps(
+            "lobby",
             {
-                'type': 'chat_message',
-                'message': message,
+                'type': 'chat.message',
+                'character': character,
+                'userName': userName,
                 'utc_time': utc_time,
-            }))
+            },
         )
 
     def chat_message(self, event):
@@ -45,12 +49,15 @@ class ChatConsumer(WebsocketConsumer):
         Receive a broadcast message and send it over a websocket
         """
         
-        message = event['message']
+        character = event['character']
+        userName = event['userName']
         utc_time = event['utc_time']
 
         # Send message to WebSocket
         self.send(text_data=json.dumps({
-            'message': message,
+            'type': 'chat.message',
+            'character': character,
+            'userName': userName,
             'utc_time': utc_time,
         }))
 

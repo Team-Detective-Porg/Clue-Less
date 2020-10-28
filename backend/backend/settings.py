@@ -78,11 +78,20 @@ WSGI_APPLICATION = "backend.wsgi.application"
 
 ASGI_APPLICATION = "backend.routing.application"
 
-CHANNEL_LAYERS={
+#CHANNEL_LAYERS={
+#    "default": {
+#        "BACKEND": "channels.layers.InMemoryChannelLayer"
+#     }
+#}
+
+CHANNEL_LAYERS = {
     "default": {
-        "BACKEND": "channels.layers.InMemoryChannelLayer"
-     }
-}
+        "BACKEND": "channels_redis.core.RedisChannelLayer",
+        "CONFIG": {
+            "hosts": [("localhost", 6379)],
+        },
+    },
+} 
 
 
 # Database
