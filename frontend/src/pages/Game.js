@@ -1,7 +1,23 @@
 import React from 'react';
+import Study from '../components/Study.js';
+import Grid from '@material-ui/core/Grid';
 
 export default function Game(props) {
     return (
-        <h1>Board game goes here</h1>
+        <Grid container direction="column" alignItems="center">
+            <Grid item>
+                <Study/>
+            </Grid>
+
+            <Grid item>
+
+            </Grid>
+
+            <Grid item>
+
+            </Grid>
+        </Grid>
+
+        
     );
 }
