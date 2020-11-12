@@ -10,45 +10,29 @@ const useStyles = makeStyles({
     }
 });
 
-
-export default function Study(props) {
+export default function Hall(props) {
     const styling = useStyles();
 
     const handleRoomClick = () => {
         console.log("Clicked room");
     }
 
-    const handlePassageClick = (e) => {
-        console.log("Clicked passage");
-    }
     return (
         <Grid item>
-            <Paper variant="outlined" style={{width: "125px", height: "125px"}} >
-                <Button variant="contained" color="primary" style={{width:"100%", height: "100%", zIndex:10}} onClick={handleRoomClick}>
+            <Paper variant="outlined" style={{width: "125px", height: "125px"}}>
+                <Button variant="contained" color="primary" style={{width:"100%", height: "100%"}} onClick={handleRoomClick}>
                     <Grid container direction="column">
                         <Grid item>
-                            Study
+                            Hall
                         </Grid>
 
                         <Grid item>
                             <Paper>
-                                Shirley
                             </Paper>
                         </Grid>
                     </Grid>
                     
-
                 </Button>
-
-                <Button 
-                    variant="contained" 
-                    className={styling.root}
-                    style={{zIndex:20, padding:"0px", width: "25px", height: "25px", marginTop: "-60px", marginLeft: "95px"}} 
-                    onClick={handlePassageClick}
-                >
-                    &#8600;
-                </Button>
-
             </Paper>
         </Grid>
         
