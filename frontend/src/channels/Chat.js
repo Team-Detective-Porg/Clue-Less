@@ -1,4 +1,4 @@
-import WebSocketInstance from '../WebSocket'
+import WebSocketInstance from './WebSocket.js'
 
 export default class Chat extends Component {
   constructor(props) {
