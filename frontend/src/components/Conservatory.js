@@ -11,7 +11,7 @@ const useStyles = makeStyles({
 });
 
 
-export default function Study(props) {
+export default function Conservatory(props) {
     const styling = useStyles();
 
     const handleRoomClick = () => {
@@ -25,20 +25,16 @@ export default function Study(props) {
         <Grid item>
             <Paper variant="outlined" style={{width: "125px", height: "125px"}} >
                 <Button variant="contained" color="primary" style={{width:"100%", height: "100%", zIndex:10}} onClick={handleRoomClick}>
-                    <Grid container direction="column">
+                    <Grid container direction="column" alignItems="center">
                         <Grid item>
-                            Study
+                            <span style={{fontSize: "8pt"}}>
+                                Conservatory
+                            </span>
                         </Grid>
 
                         <Grid item>
                             <Paper>
-                                Shirley
-                            </Paper>
-                        </Grid>
-
-                        <Grid item>
-                            <Paper>
-                                Halle
+                                
                             </Paper>
                         </Grid>
                     </Grid>
@@ -52,7 +48,7 @@ export default function Study(props) {
                     style={{zIndex:20, padding:"0px", width: "25px", height: "25px", marginTop: "-60px", marginLeft: "95px"}} 
                     onClick={handlePassageClick}
                 >
-                    &#8600;
+                    &#8599;
                 </Button>
 
             </Paper>
