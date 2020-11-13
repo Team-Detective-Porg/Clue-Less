@@ -12,14 +12,10 @@ const useStyles = makeStyles({
 export default function Ballroom_Kitchen(props) {
     const styling = useStyles();
 
-    const handleClick = () => {
-        console.log("Clicked hallway");
-    }
-
     return (
         <Grid item>
             <div variant="outlined" style={{width: "125px", height: "50px"}}>
-                <Button variant="contained" style={{width:"100%", height: "100%"}} onClick={handleClick}>
+                <Button variant="contained" style={{width:"100%", height: "100%"}} onClick={props.onClick("ballroom_kitchen")}>
                 </Button>
             </div>
         </Grid>
