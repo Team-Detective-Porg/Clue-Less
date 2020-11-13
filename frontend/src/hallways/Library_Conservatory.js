@@ -22,7 +22,7 @@ export default function Library_Conservatory(props) {
             <div style={{width: "125px", height: "125px"}}>
                 <Grid container justify="center">
                     <Grid item>
-                        <Button variant="contained" style={{width:"50px", height: "125px"}} onClick={handleClick}>
+                        <Button variant="contained" style={{width:"50px", height: "125px"}} onClick={handleClick} disabled={props.disabled === "library" || props.disabled === "conservatory" ? false : true}>
                         </Button>
                     </Grid>
                 </Grid>

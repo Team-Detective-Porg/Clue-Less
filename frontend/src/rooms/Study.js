@@ -19,7 +19,7 @@ export default function Study(props) {
     }
 
     const handlePassageClick = (e) => {
-        console.log("billiard");
+        props.onClick("kitchen");
     }
     return (
         <Grid item>

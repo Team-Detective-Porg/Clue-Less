@@ -26,8 +26,8 @@ import Empty from '../rooms/Empty.js';
 
 export default function Game(props) {
 
-    const [currLocation, setCurrLocation] = useState();
-    const [nextLocation, setNextLocation] = useState();
+    const [currLocation, setCurrLocation] = useState("study"); // Get from websocket
+    const [nextLocation, setNextLocation] = useState(); // Send to websocket
     const [playerData, setPlayerData] = useState();
     const validMoves = {
         study: ["study_hall", "study_library", "kitchen"],
@@ -53,11 +53,9 @@ export default function Game(props) {
         kitchen: ["dining_kitchen", "ballroom_kitchen"]
     };
     
-
     /**
      * TO DO LIST:
      * UI:
-     * Hallway components
      * Flip text 90º on vertical hallways
      * Initial call to server for default starting locations
      * api call for suggestion
@@ -83,12 +81,15 @@ export default function Game(props) {
 
     });
 
-    const handleClick = (location) => {
+    const handleClick = (selectedLocation) => {
+        // Validation 1: Is the selected location possible?
+
+        // Validation 2: Is the selected 
 
         // Check if the location that was clicked is a valid next move. If not, prompt to try again
             // Do this by comparing `currLocation` with location passed in by
             //Query the json object in validMoves object to check valid moves
-        console.log(location);
+        console.log(selectedLocation);
     }
 
 
@@ -126,7 +127,7 @@ export default function Game(props) {
 
             <Grid item xs={12}>
                 <Grid container justify="center" alignItems="center">
-                    <Library_Conservatory/>
+                    <Library_Conservatory disabled={currLocation}/>
                     <Empty/>
                     <Billiard_Ballroom/>
                     <Empty/>
@@ -139,7 +140,7 @@ export default function Game(props) {
                     <Conservatory/>
                     <Conservatory_Ballroom/>
                     <Ballroom/>
-                    <Ballroom_Kitchen/>
+                    <Ballroom_Kitchen onClick={handleClick}/>
                     <Kitchen/>
                 </Grid>
             </Grid>
