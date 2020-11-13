@@ -15,11 +15,11 @@ export default function Study(props) {
     const styling = useStyles();
 
     const handleRoomClick = () => {
-        console.log("Clicked room");
+        props.onClick("study");
     }
 
     const handlePassageClick = (e) => {
-        console.log("Clicked passage");
+        console.log("billiard");
     }
     return (
         <Grid item>
