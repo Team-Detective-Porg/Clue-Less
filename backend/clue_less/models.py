@@ -5,11 +5,13 @@ from django.db import models
 
 class Character(models.Model):
     name = models.CharField(max_length=120)
-    location = models.CharField(
-        default="starting Place", max_length=10
-    )  # TODO Better define this data type and default.
+    location = models.CharField(max_length=50, blank=True, null=True)
     holder = models.ForeignKey(
-        "Player", on_delete=models.SET_NULL, blank=True, null=True
+        "Player",
+        on_delete=models.SET_NULL,
+        blank=True,
+        null=True,
+        related_name="character_holder",
     )
 
     def _str_(self):
@@ -22,6 +24,7 @@ class Player(models.Model):
         "Session",
         on_delete=models.CASCADE,
     )
+    # roomList = models.ManyToManyField("Room", related_name="golder", blank=True)
     user_character = models.ForeignKey(
         "Character",
         on_delete=models.PROTECT,
@@ -36,7 +39,11 @@ class Player(models.Model):
 class Room(models.Model):
     name = models.CharField(max_length=120)
     holder = models.ForeignKey(
-        "Player", on_delete=models.SET_NULL, blank=True, null=True
+        "Player",
+        on_delete=models.SET_NULL,
+        blank=True,
+        null=True,
+        related_name="room_holder",
     )
 
     def _str_(self):
@@ -55,11 +62,13 @@ class Session(models.Model):
 
 class Weapon(models.Model):
     name = models.CharField(max_length=120)
-    location = models.CharField(
-        default="Starting Place", max_length=10
-    )  # TODO Better define this data type and default.
+    location = models.CharField(max_length=50, blank=True, null=True)
     holder = models.ForeignKey(
-        "Player", on_delete=models.SET_NULL, blank=True, null=True
+        "Player",
+        on_delete=models.SET_NULL,
+        blank=True,
+        null=True,
+        related_name="weapon_holder",
     )
 
     def _str_(self):
