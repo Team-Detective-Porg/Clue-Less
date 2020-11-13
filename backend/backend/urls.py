@@ -25,4 +25,9 @@ router.register(r"players", views.PlayerView, "player")
 router.register(r"sessions", views.SessionView, "session")
 router.register(r"weapons", views.WeaponView, "weapon")
 
-urlpatterns = [path("admin/", admin.site.urls), path("api/", include(router.urls))]
+
+urlpatterns = [
+    path("admin/", admin.site.urls),
+    path("api/", include(router.urls)),
+    path("gamestart/<int:session_id>/", views.start_game),
+]
