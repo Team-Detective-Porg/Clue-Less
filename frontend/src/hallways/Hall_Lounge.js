@@ -9,7 +9,7 @@ const useStyles = makeStyles({
     }
 });
 
-export default function HorizontalHallway(props) {
+export default function Hall_Lounge(props) {
     const styling = useStyles();
 
     const handleClick = () => {

@@ -8,8 +8,18 @@ import Dining from '../rooms/Dining.js';
 import Conservatory from '../rooms/Conservatory.js';
 import Ballroom from '../rooms/Ballroom.js';
 import Kitchen from '../rooms/Kitchen.js';
-import HorizontalHallway from '../hallways/HorizontalHallway.js';
-import VerticalHallway from '../hallways/VerticalHallway.js';
+import Study_Hall from '../hallways/Study_Hall.js';
+import Hall_Lounge from '../hallways/Hall_Lounge.js';
+import Study_Library from '../hallways/Study_Library.js';
+import Hall_Billiard from '../hallways/Hall_Billiard.js';
+import Lounge_Dining from '../hallways/Lounge_Dining.js';
+import Library_Billiard from '../hallways/Library_Billiard.js';
+import Billiard_Dining from '../hallways/Billiard_Dining.js';
+import Library_Conservatory from '../hallways/Library_Conservatory.js';
+import Billiard_Ballroom from '../hallways/Billiard_Ballroom.js';
+import Dining_Kitchen from '../hallways/Dining_Kitchen.js';
+import Conservatory_Ballroom from '../hallways/Conservatory_Ballroom.js';
+import Ballroom_Kitchen from '../hallways/Ballroom_Kitchen.js';
 import Grid from '@material-ui/core/Grid';
 import Empty from '../rooms/Empty.js';
 
@@ -87,49 +97,49 @@ export default function Game(props) {
             <Grid item xs={12}>
                 <Grid container justify="center" alignItems="center">
                     <Study onClick={handleClick}/>
-                    <HorizontalHallway/>
+                    <Study_Hall/>
                     <Hall/>
-                    <HorizontalHallway/>
+                    <Hall_Lounge/>
                     <Lounge/>
                 </Grid>
             </Grid>
             
             <Grid item xs={12}>
                 <Grid container justify="center" alignItems="center">
-                    <VerticalHallway/>
+                    <Study_Library/>
                     <Empty/>
-                    <VerticalHallway/>
+                    <Hall_Billiard/>
                     <Empty/>
-                    <VerticalHallway/>
+                    <Lounge_Dining/>
                 </Grid>
             </Grid>
 
             <Grid item xs={12}>
                 <Grid container justify="center" alignItems="center">
                     <Library/>
-                    <HorizontalHallway/>
+                    <Library_Billiard/>
                     <Billiard/>
-                    <HorizontalHallway/>
+                    <Billiard_Dining/>
                     <Dining/>
                 </Grid>
             </Grid>
 
             <Grid item xs={12}>
                 <Grid container justify="center" alignItems="center">
-                    <VerticalHallway/>
+                    <Library_Conservatory/>
                     <Empty/>
-                    <VerticalHallway/>
+                    <Billiard_Ballroom/>
                     <Empty/>
-                    <VerticalHallway/>
+                    <Dining_Kitchen/>
                 </Grid>
             </Grid>
 
             <Grid item xs={12}>
                 <Grid container justify="center" alignItems="center">
                     <Conservatory/>
-                    <HorizontalHallway/>
+                    <Conservatory_Ballroom/>
                     <Ballroom/>
-                    <HorizontalHallway/>
+                    <Ballroom_Kitchen/>
                     <Kitchen/>
                 </Grid>
             </Grid>

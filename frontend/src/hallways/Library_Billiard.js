@@ -9,7 +9,7 @@ const useStyles = makeStyles({
     }
 });
 
-export default function HorizontalHallway(props) {
+export default function Library_Billiard(props) {
     const styling = useStyles();
 
     const handleClick = () => {
