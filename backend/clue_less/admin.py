@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Character, Player, Room, Session, Weapon
+from .models import Character, Player, Location, Session, Weapon
 
 
 # Create Character Admin interface
@@ -23,12 +23,12 @@ class PlayerAdmin(admin.ModelAdmin):
 admin.site.register(Player, PlayerAdmin)
 
 
-# Create Room Admin interface
-class RoomAdmin(admin.ModelAdmin):
-    fields = ["name", "holder"]
+# Create Location Admin interface
+class LocationAdmin(admin.ModelAdmin):
+    fields = ["is_card", "holder", "display_name", "name", "valid_moves"]
 
 
-admin.site.register(Room, RoomAdmin)
+admin.site.register(Location, LocationAdmin)
 
 
 # Create Session Admin interface

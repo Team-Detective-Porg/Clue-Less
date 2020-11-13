@@ -1,14 +1,15 @@
 from rest_framework import viewsets
 from .serializers import (
     CharacterSerializer,
+    LocationSerializer,
     PlayerSerializer,
-    RoomSerializer,
     SessionSerializer,
     WeaponSerializer,
 )
-from .models import Character, Player, Room, Session, Weapon
+from .models import Character, Player, Location, Session, Weapon
 
 from django.shortcuts import render
+
 
 class CharacterView(viewsets.ModelViewSet):
     serializer_class = CharacterSerializer
@@ -31,14 +32,24 @@ class CharacterView(viewsets.ModelViewSet):
         return queryset
 
 
+class LocationView(viewsets.ModelViewSet):
+    serializer_class = LocationSerializer
+    queryset = Location.objects.all()
+
+    def get_queryset(self):
+        """ allow rest api to filter by name """
+        queryset = Location.objects.all()
+        card = self.request.query_params.get("card", None)
+        if card is not None:
+            # TODO Adjust to filter on game sessions.
+            queryset = queryset.filter(is_card=card)
+
+        return queryset
+
+
 class PlayerView(viewsets.ModelViewSet):
     serializer_class = PlayerSerializer
     queryset = Player.objects.all()
-
-
-class RoomView(viewsets.ModelViewSet):
-    serializer_class = RoomSerializer
-    queryset = Room.objects.all()
 
 
 class SessionView(viewsets.ModelViewSet):
