@@ -19,6 +19,29 @@ export default function Game(props) {
     const [currLocation, setCurrLocation] = useState();
     const [nextLocation, setNextLocation] = useState();
     const [playerData, setPlayerData] = useState();
+    const validMoves = {
+        study: ["study_hall", "study_library", "kitchen"],
+        study_hall: ["study", "hall"],
+        hall: ["study_hall", "hall_lounge"],
+        hall_lounge: ["hall", "lounge"],
+        lounge: ["hall_lounge", "lounge_dining", "conservatory"],
+        study_library: ["study", "library"],
+        hall_billiard: ["hall", "billiard"],
+        lounge_dining: ["lounge", "dining"],
+        library: ["study_library", "library_conservatory", "library_billiard"],
+        library_billiard: ["library", "billiard"],
+        billiard: ["hall_billiard", "billiard_dining", "billiard_ballroom", "library_billiard"],
+        billiard_dining: ["billiard", "dining"],
+        dining: ["lounge_dining", "billiard_dining", "dining_kitchen"],
+        library_conservatory: ["library", "conservatory"],
+        billiard_ballroom: ["billiard", "ballroom"],
+        dining_kitchen: ["dining", "kitchen"],
+        conservatory: ["library_conservatory", "conservatory_ballroom"],
+        conservatory_ballroom: ["conservatory", "ballroom"],
+        ballroom: ["billiard_ballroom", "ballroom_kitchen", "conservatory_ballroom"],
+        ballroom_kitchen: ["ballroom", "kitchen"],
+        kitchen: ["dining_kitchen", "ballroom_kitchen"]
+    };
     
 
     /**
@@ -45,34 +68,13 @@ export default function Game(props) {
 
     // Assuming we get a json object back by player and their current positions
     // Data from server on valid locations 
-    
-    /**
-     * Total player dataset from server to render board state
-     * {
-     *      player1: {
-     *          currentLocation: "Study",
-     *          cardList: []
-     *      },
-     *      player2: {
-     *          currentLocation: "Lounge",
-     *          cardList: []
-     *      }
-     * }
-     */
 
+    useEffect(() => {
 
-    /**
-     * Validation of player move
-     * {
-     *      study: ["study_hall", "study_library", "billiard"],
-     *      study_hall: ["study", "hall"],
-     *      hall: ["study_hall", "hall_lounge"],
-     *      hall_lounge:
-     *      lounge: 
-     * }
-     */
+    });
 
     const handleClick = (location) => {
+
         // Check if the location that was clicked is a valid next move. If not, prompt to try again
             // Do this by comparing `currLocation` with location passed in by
             //Query the json object in validMoves object to check valid moves
