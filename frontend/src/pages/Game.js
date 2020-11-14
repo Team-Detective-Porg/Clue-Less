@@ -1,4 +1,5 @@
 import React, {useEffect, useState} from 'react';
+import Room from '../Room.js';
 import Study from '../rooms/Study.js';
 import Hall from '../rooms/Hall.js';
 import Lounge from '../rooms/Lounge.js';
@@ -97,11 +98,11 @@ export default function Game(props) {
         <Grid container direction="row" alignItems="center">
             <Grid item xs={12}>
                 <Grid container justify="center" alignItems="center">
-                    <Study onClick={handleClick}/>
+                    <Room roomType={"study"} handleClick={handleClick}/>
                     <Study_Hall/>
-                    <Hall/>
+                    <Room roomType={"hall"} handleClick={handleClick}/>
                     <Hall_Lounge/>
-                    <Lounge/>
+                    <Room roomType={"lounge"} handleClick={handleClick}/>
                 </Grid>
             </Grid>
             
@@ -117,11 +118,11 @@ export default function Game(props) {
 
             <Grid item xs={12}>
                 <Grid container justify="center" alignItems="center">
-                    <Library/>
+                    <Room roomType={"library"} handleClick={handleClick}/>
                     <Library_Billiard/>
-                    <Billiard/>
+                    <Room roomType={"billiard"} handleClick={handleClick}/>
                     <Billiard_Dining/>
-                    <Dining/>
+                    <Room roomType={"dining"} handleClick={handleClick}/>
                 </Grid>
             </Grid>
 
@@ -137,11 +138,11 @@ export default function Game(props) {
 
             <Grid item xs={12}>
                 <Grid container justify="center" alignItems="center">
-                    <Conservatory/>
+                    <Room roomType={"conservatory"} handleClick={handleClick}/>
                     <Conservatory_Ballroom/>
-                    <Ballroom/>
+                    <Room roomType={"ballroom"} handleClick={handleClick}/>
                     <Ballroom_Kitchen onClick={handleClick}/>
-                    <Kitchen/>
+                    <Room roomType={"kitchen"} handleClick={handleClick}/>
                 </Grid>
             </Grid>
 
