@@ -1,6 +1,5 @@
 import React from 'react';
 import Button from '@material-ui/core/Button';
-import Paper from '@material-ui/core/Paper';
 import Grid from '@material-ui/core/Grid';
 import { makeStyles } from '@material-ui/core/styles';
 
@@ -22,7 +21,7 @@ export default function Hallway(props) {
                         <Button 
                             variant="contained" 
                             style={{width:"125px", height: "50px"}} 
-                            onClick={() => {props.handleClick(props.hallwayType)}}/>
+                            onClick={() => {props.handleMove(props.hallwayType)}}/>
                     </Grid>
                 </Grid>
                 : 
@@ -31,7 +30,7 @@ export default function Hallway(props) {
                         <Button 
                             variant="contained" 
                             style={{width:"50px", height: "125px"}} 
-                            onClick={() => {props.handleClick(props.hallwayType)}}/>
+                            onClick={() => {props.handleMove(props.hallwayType)}}/>
                     </Grid>
                 </Grid>
             }
