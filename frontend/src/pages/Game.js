@@ -1,20 +1,7 @@
 import React, {useEffect, useState} from 'react';
 import Room from '../Room.js';
 import Hallway from '../Hallway.js';
-import Hall_Lounge from '../hallways/Hall_Lounge.js';
-import Study_Library from '../hallways/Study_Library.js';
-import Hall_Billiard from '../hallways/Hall_Billiard.js';
-import Lounge_Dining from '../hallways/Lounge_Dining.js';
-import Library_Billiard from '../hallways/Library_Billiard.js';
-import Billiard_Dining from '../hallways/Billiard_Dining.js';
-import Library_Conservatory from '../hallways/Library_Conservatory.js';
-import Billiard_Ballroom from '../hallways/Billiard_Ballroom.js';
-import Dining_Kitchen from '../hallways/Dining_Kitchen.js';
-import Conservatory_Ballroom from '../hallways/Conservatory_Ballroom.js';
-import Ballroom_Kitchen from '../hallways/Ballroom_Kitchen.js';
 import Grid from '@material-ui/core/Grid';
-import Empty from '../rooms/Empty.js';
-
 
 export default function Game(props) {
 
