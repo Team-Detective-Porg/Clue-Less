@@ -1,15 +1,6 @@
 import React, {useEffect, useState} from 'react';
 import Room from '../Room.js';
-import Study from '../rooms/Study.js';
-import Hall from '../rooms/Hall.js';
-import Lounge from '../rooms/Lounge.js';
-import Library from '../rooms/Library.js';
-import Billiard from '../rooms/Billiard.js';
-import Dining from '../rooms/Dining.js';
-import Conservatory from '../rooms/Conservatory.js';
-import Ballroom from '../rooms/Ballroom.js';
-import Kitchen from '../rooms/Kitchen.js';
-import Study_Hall from '../hallways/Study_Hall.js';
+import Hallway from '../Hallway.js';
 import Hall_Lounge from '../hallways/Hall_Lounge.js';
 import Study_Library from '../hallways/Study_Library.js';
 import Hall_Billiard from '../hallways/Hall_Billiard.js';
@@ -98,51 +89,125 @@ export default function Game(props) {
         <Grid container direction="row" alignItems="center">
             <Grid item xs={12}>
                 <Grid container justify="center" alignItems="center">
-                    <Room roomType={"study"} handleClick={handleClick}/>
-                    <Study_Hall/>
-                    <Room roomType={"hall"} handleClick={handleClick}/>
-                    <Hall_Lounge/>
-                    <Room roomType={"lounge"} handleClick={handleClick}/>
+                    <Room 
+                        roomType={"study"} 
+                        handleClick={handleClick}/>
+                    
+                    <Hallway 
+                        hallwayType={"study_hall"} 
+                        direction={"horizontal"} 
+                        handleClick={handleClick}/>
+
+                    <Room 
+                        roomType={"hall"} 
+                        handleClick={handleClick}/>
+
+                    <Hallway 
+                        hallwayType={"hall_lounge"} 
+                        direction={"horizontal"} 
+                        handleClick={handleClick}/>
+
+                    <Room 
+                        roomType={"lounge"} 
+                        handleClick={handleClick}/>
                 </Grid>
             </Grid>
             
             <Grid item xs={12}>
                 <Grid container justify="center" alignItems="center">
-                    <Study_Library/>
-                    <Empty/>
-                    <Hall_Billiard/>
-                    <Empty/>
-                    <Lounge_Dining/>
+                    <Hallway
+                        hallwayType={"study_library"}
+                        direction={"vertical"}
+                        handleClick={handleClick}/>
+
+                    <Room empty={true}/>
+
+                    <Hallway
+                        hallwayType={"hall_billiard"}
+                        direction={"vertical"}
+                        handleClick={handleClick}/>
+
+                    <Room empty={true}/>
+
+                    <Hallway
+                        hallwayType={"lounge_dining"}
+                        direction={"vertical"}
+                        handleClick={handleClick}/>
                 </Grid>
             </Grid>
 
             <Grid item xs={12}>
                 <Grid container justify="center" alignItems="center">
-                    <Room roomType={"library"} handleClick={handleClick}/>
-                    <Library_Billiard/>
-                    <Room roomType={"billiard"} handleClick={handleClick}/>
-                    <Billiard_Dining/>
-                    <Room roomType={"dining"} handleClick={handleClick}/>
+                    <Room 
+                        roomType={"library"} 
+                        handleClick={handleClick}/>
+                    
+                    <Hallway 
+                        hallwayType={"library_billiard"} 
+                        direction={"horizontal"} 
+                        handleClick={handleClick}/>
+
+                    <Room 
+                        roomType={"billiard"} 
+                        handleClick={handleClick}/>
+
+                    <Hallway 
+                        hallwayType={"billiard_dining"} 
+                        direction={"horizontal"} 
+                        handleClick={handleClick}/>
+
+                    <Room 
+                        roomType={"dining"} 
+                        handleClick={handleClick}/>
                 </Grid>
             </Grid>
 
             <Grid item xs={12}>
                 <Grid container justify="center" alignItems="center">
-                    <Library_Conservatory disabled={currLocation}/>
-                    <Empty/>
-                    <Billiard_Ballroom/>
-                    <Empty/>
-                    <Dining_Kitchen/>
+                    <Hallway
+                        hallwayType={"library_conservatory"}
+                        direction={"vertical"}
+                        handleClick={handleClick}/>
+
+                    <Room empty={true}/>
+
+                    <Hallway
+                        hallwayType={"billiard_ballroom"}
+                        direction={"vertical"}
+                        handleClick={handleClick}/>
+
+                    <Room empty={true}/>
+
+                    <Hallway
+                        hallwayType={"dining_kitchen"}
+                        direction={"vertical"}
+                        handleClick={handleClick}/>
                 </Grid>
             </Grid>
 
             <Grid item xs={12}>
                 <Grid container justify="center" alignItems="center">
-                    <Room roomType={"conservatory"} handleClick={handleClick}/>
-                    <Conservatory_Ballroom/>
-                    <Room roomType={"ballroom"} handleClick={handleClick}/>
-                    <Ballroom_Kitchen onClick={handleClick}/>
-                    <Room roomType={"kitchen"} handleClick={handleClick}/>
+                    <Room 
+                        roomType={"conservatory"} 
+                        handleClick={handleClick}/>
+                    
+                    <Hallway 
+                        hallwayType={"conservatory_ballroom"} 
+                        direction={"horizontal"} 
+                        handleClick={handleClick}/>
+
+                    <Room 
+                        roomType={"ballroom"} 
+                        handleClick={handleClick}/>
+
+                    <Hallway 
+                        hallwayType={"ballroom_kitchen"} 
+                        direction={"horizontal"} 
+                        handleClick={handleClick}/>
+
+                    <Room 
+                        roomType={"kitchen"} 
+                        handleClick={handleClick}/>
                 </Grid>
             </Grid>
 

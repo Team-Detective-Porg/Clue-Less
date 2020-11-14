@@ -15,6 +15,11 @@ export default function Room(props) {
     const styling = useStyles();
 
     return (
+        props.empty === true ?
+        <Grid item>
+            <div style={{width: "125px", height: "125px"}}/>
+        </Grid> 
+        :
         <Grid item>
             <Paper variant="outlined" style={{width: "125px", height: "125px"}} >
                 <Button variant="contained" color="primary" style={{width:"100%", height: "100%", zIndex:10}} onClick={() => props.handleClick(props.roomType)}>
@@ -79,8 +84,6 @@ export default function Room(props) {
                         &#8598;
                     </Button>: null
                 }
-
-
             </Paper>
         </Grid>
         
