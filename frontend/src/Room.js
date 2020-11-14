@@ -43,7 +43,7 @@ export default function Room(props) {
                         variant="contained" 
                         className={styling.root}
                         style={{zIndex:20, padding:"0px", width: "25px", height: "25px", marginTop: "-60px", marginLeft: "95px"}} 
-                        onClick={() => props.handleClick("kitchen")}
+                        onClick={() => props.handleMove("kitchen")}
                     >
                         &#8600;
                     </Button> : null
@@ -55,7 +55,7 @@ export default function Room(props) {
                         variant="contained" 
                         className={styling.root}
                         style={{zIndex:20, padding:"0px", width: "25px", height: "25px", marginTop: "-60px", marginLeft: "5px"}} 
-                        onClick={() => props.handleClick("conservatory")}
+                        onClick={() => props.handleMove("conservatory")}
                     >
                         &#8601;
                     </Button> : null
@@ -67,7 +67,7 @@ export default function Room(props) {
                         variant="contained" 
                         className={styling.root}
                         style={{zIndex:20, padding:"0px", width: "25px", height: "25px", marginTop: "-240px", marginLeft: "95px"}} 
-                        onClick={() => props.handleClick("lounge")}
+                        onClick={() => props.handleMove("lounge")}
                     >
                         &#8599;
                     </Button>: null
@@ -79,7 +79,7 @@ export default function Room(props) {
                         variant="contained" 
                         className={styling.root}
                         style={{zIndex:20, padding:"0px", width: "25px", height: "25px", marginTop: "-240px", marginLeft: "5px"}} 
-                        onClick={() => props.handleClick("study")}
+                        onClick={() => props.handleMove("study")}
                     >
                         &#8598;
                     </Button>: null

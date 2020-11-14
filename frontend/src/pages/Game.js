@@ -9,22 +9,11 @@ import Grid from '@material-ui/core/Grid';
 
 /**
  * TO DO LIST:
- * UI:
- * Initial call to server for default starting locations
- * call to server for weapons
- * api call for suggestion
  * 
- * Card state
- * UI rendering for suggestion/accusation?
+ * Rebase on new backend
+ * Update anything that breaks
+ * Render initial starting positions for characters and weapons
  * 
- * 
- * Backend:
- * Update characters api call
- * Return playerdata to render board state
- * 
- * 
- * Communication:
- * Set up channel for Game.js
  */
 
 export default function Game(props) {
