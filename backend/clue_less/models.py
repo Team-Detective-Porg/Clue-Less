@@ -5,11 +5,38 @@ from django.db import models
 
 class Character(models.Model):
     name = models.CharField(max_length=120)
-    location = models.CharField(
-        default="starting Place", max_length=10
-    )  # TODO Better define this data type and default.
+    location = models.ForeignKey(
+        "Location",
+        on_delete=models.SET_NULL,
+        blank=True,
+        null=True,
+        related_name="character_location",
+    )
     holder = models.ForeignKey(
-        "Player", on_delete=models.SET_NULL, blank=True, null=True
+        "Player",
+        on_delete=models.SET_NULL,
+        blank=True,
+        null=True,
+        related_name="character_holder",
+    )
+
+    def _str_(self):
+        return self.name
+
+
+class Location(models.Model):
+    is_card = models.BooleanField(default=False)
+    display_name = models.CharField(max_length=120, unique=True)
+    holder = models.ForeignKey(
+        "Player",
+        on_delete=models.SET_NULL,
+        blank=True,
+        null=True,
+        related_name="room_holder",
+    )
+    name = models.CharField(max_length=120, unique=True, primary_key=True)
+    valid_moves = models.ManyToManyField(
+        "self", related_name="valid_move", blank=True, symmetrical=False
     )
 
     def _str_(self):
@@ -33,21 +60,13 @@ class Player(models.Model):
         return self.name
 
 
-class Room(models.Model):
-    name = models.CharField(max_length=120)
-    holder = models.ForeignKey(
-        "Player", on_delete=models.SET_NULL, blank=True, null=True
-    )
-
-    def _str_(self):
-        return self.name
-
-
 class Session(models.Model):
     character = models.ForeignKey(
         "Character", on_delete=models.SET_NULL, blank=True, null=True
     )
-    room = models.ForeignKey("Room", on_delete=models.SET_NULL, blank=True, null=True)
+    room = models.ForeignKey(
+        "Location", on_delete=models.SET_NULL, blank=True, null=True
+    )
     weapon = models.ForeignKey(
         "Weapon", on_delete=models.SET_NULL, blank=True, null=True
     )
@@ -55,11 +74,19 @@ class Session(models.Model):
 
 class Weapon(models.Model):
     name = models.CharField(max_length=120)
-    location = models.CharField(
-        default="Starting Place", max_length=10
-    )  # TODO Better define this data type and default.
+    location = models.ForeignKey(
+        "Location",
+        on_delete=models.SET_NULL,
+        blank=True,
+        null=True,
+        related_name="weapon_location",
+    )
     holder = models.ForeignKey(
-        "Player", on_delete=models.SET_NULL, blank=True, null=True
+        "Player",
+        on_delete=models.SET_NULL,
+        blank=True,
+        null=True,
+        related_name="weapon_holder",
     )
 
     def _str_(self):

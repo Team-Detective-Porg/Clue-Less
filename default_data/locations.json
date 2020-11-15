@@ -1,0 +1,261 @@
+[
+    {
+        "pk": "study",
+        "model": "clue_less.location",
+        "fields": {
+            "is_card": true,
+            "display_name": "Study",
+            "valid_moves": [
+                "study_hall",
+                "study_library",
+                "kitchen"
+            ]
+        }
+    },
+    {
+        "pk": "study_hall",
+        "model": "clue_less.location",
+        "fields": {
+            "is_card": false,
+            "display_name": "Study to Hall Hall",
+            "valid_moves": [
+                "study",
+                "hall"
+            ]
+        }
+    },
+    {
+        "pk": "hall",
+        "model": "clue_less.location",
+        "fields": {
+            "is_card": true,
+            "display_name": "Hall",
+            "valid_moves": [
+                "study_hall",
+                "hall_lounge"
+            ]
+        }
+    },
+    {
+        "pk": "hall_lounge",
+        "model": "clue_less.location",
+        "fields": {
+            "is_card": false,
+            "display_name": "Hall to Lounge Hall",
+            "valid_moves": [
+                "hall",
+                "lounge"
+            ]
+        }
+    },
+    {
+        "pk": "lounge",
+        "model": "clue_less.location",
+        "fields": {
+            "is_card": true,
+            "display_name": "Lounge",
+            "valid_moves": [
+                "hall_lounge",
+                "lounge_dining",
+                "conservatory"
+            ]
+        }
+    },
+    {
+        "pk": "study_library",
+        "model": "clue_less.location",
+        "fields": {
+            "is_card": false,
+            "display_name": "Study to Library Hall",
+            "valid_moves": [
+                "study",
+                "library"
+            ]
+        }
+    },
+    {
+        "pk": "hall_billiard",
+        "model": "clue_less.location",
+        "fields": {
+            "is_card": false,
+            "display_name": "Hall to Billiard Hall",
+            "valid_moves": [
+                "hall",
+                "billiard"
+            ]
+        }
+    },
+    {
+        "pk": "lounge_dining",
+        "model": "clue_less.location",
+        "fields": {
+            "is_card": false,
+            "display_name": "Lounge to Dining Hall",
+            "valid_moves": [
+                "lounge",
+                "dining"
+            ]
+        }
+    },
+    {
+        "pk": "library",
+        "model": "clue_less.location",
+        "fields": {
+            "is_card": true,
+            "display_name": "Library",
+            "valid_moves": [
+                "study_library",
+                "library_conservatory",
+                "library_billiard"
+            ]
+        }
+    },
+    {
+        "pk": "library_billiard",
+        "model": "clue_less.location",
+        "fields": {
+            "is_card": false,
+            "display_name": "library to Billiard Hall",
+            "valid_moves": [
+                "library",
+                "billiard"
+            ]
+        }
+    },
+    {
+        "pk": "billiard",
+        "model": "clue_less.location",
+        "fields": {
+            "is_card": true,
+            "display_name": "Billiard",
+            "valid_moves": [
+                "hall_billiard",
+                "billiard_dining",
+                "billiard_ballroom",
+                "library_billiard"
+            ]
+        }
+    },
+    {
+        "pk": "billiard_dining",
+        "model": "clue_less.location",
+        "fields": {
+            "is_card": false,
+            "display_name": "Billiard to Dining Hall",
+            "valid_moves": [
+                "billiard",
+                "dining"
+            ]
+        }
+    },
+    {
+        "pk": "dining",
+        "model": "clue_less.location",
+        "fields": {
+            "is_card": false,
+            "display_name": "Dining",
+            "valid_moves": [
+                "lounge_dining",
+                "billiard_dining",
+                "dining_kitchen"
+            ]
+        }
+    },
+    {
+        "pk": "library_conservatory",
+        "model": "clue_less.location",
+        "fields": {
+            "is_card": false,
+            "display_name": "Library to Conservatory Hall",
+            "valid_moves": [
+                "library",
+                "conservatory"
+            ]
+        }
+    },
+    {
+        "pk": "billiard_ballroom",
+        "model": "clue_less.location",
+        "fields": {
+            "is_card": false,
+            "display_name": "Billiard to Ballroom Hall",
+            "valid_moves": [
+                "billiard",
+                "ballroom"
+            ]
+        }
+    },
+    {
+        "pk": "dining_kitchen",
+        "model": "clue_less.location",
+        "fields": {
+            "is_card": false,
+            "display_name": "Dining to Kitchen Hall",
+            "valid_moves": [
+                "dining",
+                "kitchen"
+            ]
+        }
+    },
+    {
+        "pk": "conservatory",
+        "model": "clue_less.location",
+        "fields": {
+            "is_card": true,
+            "display_name": "Conservatory",
+            "valid_moves": [
+                "library_conservatory",
+                "conservatory_ballroom"
+            ]
+        }
+    },
+    {
+        "pk": "conservatory_ballroom",
+        "model": "clue_less.location",
+        "fields": {
+            "is_card": false,
+            "display_name": "Conservatory to Ballroom Hall",
+            "valid_moves": [
+                "conservatory",
+                "ballroom"
+            ]
+        }
+    },
+    {
+        "pk": "ballroom",
+        "model": "clue_less.location",
+        "fields": {
+            "is_card": true,
+            "display_name": "Ballroom",
+            "valid_moves": [
+                "billiard_ballroom",
+                "ballroom_kitchen",
+                "conservatory_ballroom"
+            ]
+        }
+    },
+    {
+        "pk": "ballroom_kitchen",
+        "model": "clue_less.location",
+        "fields": {
+            "is_card": false,
+            "display_name": "Ballroom to Kitchen Hall",
+            "valid_moves": [
+                "ballroom",
+                "kitchen"
+            ]
+        }
+    },
+    {
+        "pk": "kitchen",
+        "model": "clue_less.location",
+        "fields": {
+            "is_card": true,
+            "display_name": "Kitchen",
+            "valid_moves": [
+                "dining_kitchen",
+                "ballroom_kitchen"
+            ]
+        }
+    }
+]

@@ -4,7 +4,7 @@
         "model": "clue_less.weapon",
         "fields": {
             "name": "A knife",
-            "location": ""
+            "location": "study"
         }
     },
     {
@@ -12,7 +12,7 @@
         "model": "clue_less.weapon",
         "fields": {
             "name": "Revolver",
-            "location": ""
+            "location": "hall"
         }
     },
     {
@@ -20,7 +20,7 @@
         "model": "clue_less.weapon",
         "fields": {
             "name": "Rope",
-            "location": ""
+            "location": "lounge"
         }
     },
     {
@@ -28,7 +28,7 @@
         "model": "clue_less.weapon",
         "fields": {
             "name": "Wrench",
-            "location": ""
+            "location": "library"
         }
     },
     {
@@ -36,7 +36,7 @@
         "model": "clue_less.weapon",
         "fields": {
             "name": "Candlestick",
-            "location": ""
+            "location": "billiard"
         }
     },
     {
@@ -44,7 +44,7 @@
         "model": "clue_less.weapon",
         "fields": {
             "name": "Lead Pipe",
-            "location": ""
+            "location": "dining"
         }
     }
 ]
