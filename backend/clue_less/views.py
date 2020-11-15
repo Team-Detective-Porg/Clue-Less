@@ -139,14 +139,27 @@ def suggestion(request):
     return JsonResponse(data)
 
 
-def ac(request, session_id):
-    pass
-    """if correct:
-        # channel push "User1 won."
+@method_decorator(csrf_exempt, name="dispatch")
+def accusation(request):
+    body_unicode = request.body.decode("utf-8")
+    body = json.loads(body_unicode)
+
+    suggested_character = Character.objects.filter(pk=body["character"]).first()
+    suggested_weapon = Weapon.objects.filter(pk=body["weapon"]).first()
+    suggested_location = Location.objects.filter(pk=body["location"]).first()
+
+    session = Session.objects.filter(pk=body["session_id"]).first()
+
+    if (
+        suggested_character == session.character
+        and suggested_weapon == session.weapon
+        and suggested_location == session.room
+    ):
         data = {"correct": True}
     else:
-        # set player in active
-        data = {"correct": False}"""
+        data = {"correct": False}
+
+    return JsonResponse(data)
 
 
 class CharacterView(viewsets.ModelViewSet):

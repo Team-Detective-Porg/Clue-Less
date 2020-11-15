@@ -31,4 +31,5 @@ urlpatterns = [
     path("api/", include(router.urls)),
     path("gamestart/<int:session_id>/", views.start_game),
     path("suggestion/", views.suggestion),
+    path("accusation/", views.accusation),
 ]
