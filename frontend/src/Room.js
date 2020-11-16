@@ -4,15 +4,20 @@ import Paper from '@material-ui/core/Paper';
 import Grid from '@material-ui/core/Grid';
 import { makeStyles } from '@material-ui/core/styles';
 
+var jsonQuery = require("json-query");
+
 const useStyles = makeStyles({
     root: {
         minWidth: "0px"
     }
 });
 
-
 export default function Room(props) {
     const styling = useStyles();
+
+    const getCharacters = () => {
+        return jsonQuery(`data[name=${props.roomType}].characterList`, {data: {data: props.locations}}).value;
+    }
 
     return (
         props.empty === true ?
@@ -27,12 +32,13 @@ export default function Room(props) {
                         <Grid item>
                             {props.roomType}
                         </Grid>
-
-                        <Grid item>
-                        </Grid>
-
-                        <Grid item>
-                        </Grid>
+                        
+                        {getCharacters() === null ? null : 
+                            getCharacters().map(char => 
+                                <Grid item>
+                                    {char.name}
+                                </Grid>
+                        )}
                     </Grid>
                 </Button>
 

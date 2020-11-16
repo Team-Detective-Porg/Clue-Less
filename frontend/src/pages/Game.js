@@ -10,20 +10,21 @@ import Grid from '@material-ui/core/Grid';
 /**
  * TO DO LIST:
  * 
- * Rebase on new backend
- * Update anything that breaks
- * Render initial starting positions for characters and weapons
- * 
+ * Disable invalid moves
+ * API call for suggestion - {card: "", player: ""}
+ * API call for accusation - {correct: "true"}
  */
 
 export default function Game(props) {
 
     // Global variables and state
+    const [session, setSession] = useState();
+
     const [characterList, setCharacterList] = useState([]);
     const [weaponList, setWeaponList] = useState([]);
-    const [roomList, setRoomList] = useState([]);
+    const [locationsList, setLocationsList] = useState([]);
 
-    const [currLocation, setCurrLocation] = useState("lounge"); // Get from websocket
+    const [currLocation, setCurrLocation] = useState(""); // Get from websocket
     const [nextLocation, setNextLocation] = useState(); // Send to websocket
 
     const [playerChoice, setPlayerChoice] = useState("");
@@ -33,37 +34,24 @@ export default function Game(props) {
         weapon: "",
         room: ""
     });
+
     const [accusation, setAccusation] = useState({
         character: "",
         weapon: "",
         room: ""
     });
 
-    const validMoves = {
-        study: ["study_hall", "study_library", "kitchen"],
-        study_hall: ["study", "hall"],
-        hall: ["study_hall", "hall_lounge"],
-        hall_lounge: ["hall", "lounge"],
-        lounge: ["hall_lounge", "lounge_dining", "conservatory"],
-        study_library: ["study", "library"],
-        hall_billiard: ["hall", "billiard"],
-        lounge_dining: ["lounge", "dining"],
-        library: ["study_library", "library_conservatory", "library_billiard"],
-        library_billiard: ["library", "billiard"],
-        billiard: ["hall_billiard", "billiard_dining", "billiard_ballroom", "library_billiard"],
-        billiard_dining: ["billiard", "dining"],
-        dining: ["lounge_dining", "billiard_dining", "dining_kitchen"],
-        library_conservatory: ["library", "conservatory"],
-        billiard_ballroom: ["billiard", "ballroom"],
-        dining_kitchen: ["dining", "kitchen"],
-        conservatory: ["library_conservatory", "conservatory_ballroom"],
-        conservatory_ballroom: ["conservatory", "ballroom"],
-        ballroom: ["billiard_ballroom", "ballroom_kitchen", "conservatory_ballroom"],
-        ballroom_kitchen: ["ballroom", "kitchen"],
-        kitchen: ["dining_kitchen", "ballroom_kitchen"]
-    };
     
+    // Initial data from server
     useEffect(() => {
+        // Get session id
+        axios
+            .get("http://localhost:8000/api/sessions/")
+            .then(response => setSession(response.data))
+            .catch(error => console.log(error));
+        
+            console.log(session)
+
         // Get list of characters
         axios
             .get("http://localhost:8000/api/characters/?available=True")
@@ -76,25 +64,16 @@ export default function Game(props) {
             .then(response => setWeaponList(response.data))
             .catch(error => console.log(error));
 
-        // Get list of rooms
+        // Get list of locations
         axios
-            .get("http://localhost:8000/api/rooms/")
-            .then(response => setRoomList(response.data))
+            .get("http://localhost:8000/api/locations/")
+            .then(response => setLocationsList(response.data))
             .catch(error => console.log(error));
-
     }, []);
 
     // Handlers
-
     const handleMove = (selectedLocation) => {
-        // Validation 1: Is the selected location possible?
-
-        // Validation 2: Is the selected 
-
-        // Check if the location that was clicked is a valid next move. If not, prompt to try again
-            // Do this by comparing `currLocation` with location passed in by
-            //Query the json object in validMoves object to check valid moves
-        console.log(selectedLocation);
+        setCurrLocation(selectedLocation);
     }
 
     const handleChoice = (value) => {
@@ -122,25 +101,30 @@ export default function Game(props) {
                         <Grid container>
                             <Room 
                                 roomType={"study"} 
-                                handleMove={handleMove}/>
+                                handleMove={handleMove}
+                                locations={locationsList}/>
                             
                             <Hallway 
                                 hallwayType={"study_hall"} 
                                 direction={"horizontal"} 
-                                handleMove={handleMove}/>
+                                handleMove={handleMove}
+                                locations={locationsList}/>
 
                             <Room 
                                 roomType={"hall"} 
-                                handleMove={handleMove}/>
+                                handleMove={handleMove}
+                                locations={locationsList}/>
 
                             <Hallway 
                                 hallwayType={"hall_lounge"} 
                                 direction={"horizontal"} 
-                                handleMove={handleMove}/>
+                                handleMove={handleMove}
+                                locations={locationsList}/>
 
                             <Room 
                                 roomType={"lounge"} 
-                                handleMove={handleMove}/>
+                                handleMove={handleMove}
+                                locations={locationsList}/>
                         </Grid>
                     </Grid>
                     
@@ -149,21 +133,24 @@ export default function Game(props) {
                             <Hallway
                                 hallwayType={"study_library"}
                                 direction={"vertical"}
-                                handleMove={handleMove}/>
+                                handleMove={handleMove}
+                                locations={locationsList}/>
 
                             <Room empty={true}/>
 
                             <Hallway
                                 hallwayType={"hall_billiard"}
                                 direction={"vertical"}
-                                handleMove={handleMove}/>
+                                handleMove={handleMove}
+                                locations={locationsList}/>
 
                             <Room empty={true}/>
 
                             <Hallway
                                 hallwayType={"lounge_dining"}
                                 direction={"vertical"}
-                                handleMove={handleMove}/>
+                                handleMove={handleMove}
+                                locations={locationsList}/>
                         </Grid>
                     </Grid>
 
@@ -171,25 +158,30 @@ export default function Game(props) {
                         <Grid container>
                             <Room 
                                 roomType={"library"} 
-                                handleMove={handleMove}/>
+                                handleMove={handleMove}
+                                locations={locationsList}/>
                             
                             <Hallway 
                                 hallwayType={"library_billiard"} 
                                 direction={"horizontal"} 
-                                handleMove={handleMove}/>
+                                handleMove={handleMove}
+                                locations={locationsList}/>
 
                             <Room 
                                 roomType={"billiard"} 
-                                handleMove={handleMove}/>
+                                handleMove={handleMove}
+                                locations={locationsList}/>
 
                             <Hallway 
                                 hallwayType={"billiard_dining"} 
                                 direction={"horizontal"} 
-                                handleMove={handleMove}/>
+                                handleMove={handleMove}
+                                locations={locationsList}/>
 
                             <Room 
                                 roomType={"dining"} 
-                                handleMove={handleMove}/>
+                                handleMove={handleMove}
+                                locations={locationsList}/>
                         </Grid>
                     </Grid>
 
@@ -198,21 +190,24 @@ export default function Game(props) {
                             <Hallway
                                 hallwayType={"library_conservatory"}
                                 direction={"vertical"}
-                                handleMove={handleMove}/>
+                                handleMove={handleMove}
+                                locations={locationsList}/>
 
                             <Room empty={true}/>
 
                             <Hallway
                                 hallwayType={"billiard_ballroom"}
                                 direction={"vertical"}
-                                handleMove={handleMove}/>
+                                handleMove={handleMove}
+                                locations={locationsList}/>
 
                             <Room empty={true}/>
 
                             <Hallway
                                 hallwayType={"dining_kitchen"}
                                 direction={"vertical"}
-                                handleMove={handleMove}/>
+                                handleMove={handleMove}
+                                locations={locationsList}/>
                         </Grid>
                     </Grid>
 
@@ -220,25 +215,30 @@ export default function Game(props) {
                         <Grid container>
                             <Room 
                                 roomType={"conservatory"} 
-                                handleMove={handleMove}/>
+                                handleMove={handleMove}
+                                locations={locationsList}/>
                             
                             <Hallway 
                                 hallwayType={"conservatory_ballroom"} 
                                 direction={"horizontal"} 
-                                handleMove={handleMove}/>
+                                handleMove={handleMove}
+                                locations={locationsList}/>
 
                             <Room 
                                 roomType={"ballroom"} 
-                                handleMove={handleMove}/>
+                                handleMove={handleMove}
+                                locations={locationsList}/>
 
                             <Hallway 
                                 hallwayType={"ballroom_kitchen"} 
                                 direction={"horizontal"} 
-                                handleMove={handleMove}/>
+                                handleMove={handleMove}
+                                locations={locationsList}/>
 
                             <Room 
                                 roomType={"kitchen"} 
-                                handleMove={handleMove}/>
+                                handleMove={handleMove}
+                                locations={locationsList}/>
                         </Grid>
                     </Grid>
 
@@ -313,9 +313,11 @@ export default function Game(props) {
                                 style={{width:"20ch"}}
                                 onChange={event => setAccusation({...accusation, room: event.target.value})}
                             >
-                                {roomList.map((room) => 
-                                    (<MenuItem key={room.name} value={room.name}>{room.name}</MenuItem>)
-                                )}
+                                {locationsList.map((loc) => {
+                                    if (loc.is_card === true) {
+                                        return (<MenuItem key={loc.name} value={loc.name}>{loc.display_name}</MenuItem>)
+                                    }
+                                })}
                             </TextField>
                         }
                     </Grid>

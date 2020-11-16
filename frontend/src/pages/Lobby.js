@@ -22,7 +22,6 @@ export default function Lobby(props) {
         WebSocketInstance.connect();
         addCallbacks();
         waitForSocketConnection(sendMessage);
-        console.log(userSelections);
     }, []);
 
     function waitForSocketConnection(callback) {
@@ -80,9 +79,6 @@ export default function Lobby(props) {
                             </TableRow>
                             ))}
                         </TableBody>
-                        {/* {
-                            Depending on how the data comes back you can use a mapping function to generate table rows/cells
-                        } */}
                     </Table>
                 </TableContainer>
             </Grid>
