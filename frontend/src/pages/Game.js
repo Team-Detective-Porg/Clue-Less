@@ -10,9 +10,10 @@ import Grid from '@material-ui/core/Grid';
 /**
  * TO DO LIST:
  * 
- * Rebase on new backend
- * Update anything that breaks
  * Render initial starting positions for characters and weapons
+ * Disable invalid moves
+ * API call for suggestion - {card: "", player: ""}
+ * API call for accusation - {correct: "true"}
  * 
  */
 
@@ -21,7 +22,7 @@ export default function Game(props) {
     // Global variables and state
     const [characterList, setCharacterList] = useState([]);
     const [weaponList, setWeaponList] = useState([]);
-    const [roomList, setRoomList] = useState([]);
+    const [locationsList, setLocationsList] = useState([]);
 
     const [currLocation, setCurrLocation] = useState("lounge"); // Get from websocket
     const [nextLocation, setNextLocation] = useState(); // Send to websocket
@@ -63,6 +64,7 @@ export default function Game(props) {
         kitchen: ["dining_kitchen", "ballroom_kitchen"]
     };
     
+    // Initial data from server
     useEffect(() => {
         // Get list of characters
         axios
@@ -78,14 +80,12 @@ export default function Game(props) {
 
         // Get list of rooms
         axios
-            .get("http://localhost:8000/api/rooms/")
-            .then(response => setRoomList(response.data))
+            .get("http://localhost:8000/api/locations/")
+            .then(response => setLocationsList(response.data))
             .catch(error => console.log(error));
-
     }, []);
 
     // Handlers
-
     const handleMove = (selectedLocation) => {
         // Validation 1: Is the selected location possible?
 
@@ -95,6 +95,7 @@ export default function Game(props) {
             // Do this by comparing `currLocation` with location passed in by
             //Query the json object in validMoves object to check valid moves
         console.log(selectedLocation);
+        setCurrLocation(selectedLocation);
     }
 
     const handleChoice = (value) => {
@@ -313,7 +314,7 @@ export default function Game(props) {
                                 style={{width:"20ch"}}
                                 onChange={event => setAccusation({...accusation, room: event.target.value})}
                             >
-                                {roomList.map((room) => 
+                                {locationsList.map((room) => 
                                     (<MenuItem key={room.name} value={room.name}>{room.name}</MenuItem>)
                                 )}
                             </TextField>
