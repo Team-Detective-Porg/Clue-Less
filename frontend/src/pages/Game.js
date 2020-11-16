@@ -33,6 +33,7 @@ export default function Game(props) {
         weapon: "",
         room: ""
     });
+
     const [accusation, setAccusation] = useState({
         character: "",
         weapon: "",
@@ -54,7 +55,8 @@ export default function Game(props) {
             .then(response => setWeaponList(response.data))
             .catch(error => console.log(error));
 
-        // Get list of rooms
+        
+        // Get list of locations
         axios
             .get("http://localhost:8000/api/locations/")
             .then(response => setLocationsList(response.data))
@@ -63,14 +65,6 @@ export default function Game(props) {
 
     // Handlers
     const handleMove = (selectedLocation) => {
-        // Validation 1: Is the selected location possible?
-
-        // Validation 2: Is the selected 
-
-        // Check if the location that was clicked is a valid next move. If not, prompt to try again
-            // Do this by comparing `currLocation` with location passed in by
-            //Query the json object in validMoves object to check valid moves
-        console.log(selectedLocation);
         setCurrLocation(selectedLocation);
     }
 
@@ -290,9 +284,11 @@ export default function Game(props) {
                                 style={{width:"20ch"}}
                                 onChange={event => setAccusation({...accusation, room: event.target.value})}
                             >
-                                {locationsList.map((room) => 
-                                    (<MenuItem key={room.name} value={room.name}>{room.name}</MenuItem>)
-                                )}
+                                {locationsList.map((loc) => {
+                                    if (loc.is_card === true) {
+                                        return (<MenuItem key={loc.name} value={loc.name}>{loc.display_name}</MenuItem>)
+                                    }
+                                })}
                             </TextField>
                         }
                     </Grid>
