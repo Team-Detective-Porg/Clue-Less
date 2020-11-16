@@ -33,15 +33,12 @@ export default function Room(props) {
                             {props.roomType}
                         </Grid>
                         
-                        {console.log(getCharacters())}
-
-                        {/* {getCharacters() === null ? null : 
+                        {getCharacters() === null ? null : 
                             getCharacters().map(char => 
                                 <Grid item>
                                     {char.name}
                                 </Grid>
-                        )} */}
-
+                        )}
                     </Grid>
                 </Button>
 

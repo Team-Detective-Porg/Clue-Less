@@ -10,7 +10,6 @@ import Grid from '@material-ui/core/Grid';
 /**
  * TO DO LIST:
  * 
- * Render initial starting positions for characters and weapons
  * Disable invalid moves
  * API call for suggestion - {card: "", player: ""}
  * API call for accusation - {correct: "true"}
@@ -19,6 +18,8 @@ import Grid from '@material-ui/core/Grid';
 export default function Game(props) {
 
     // Global variables and state
+    const [session, setSession] = useState();
+
     const [characterList, setCharacterList] = useState([]);
     const [weaponList, setWeaponList] = useState([]);
     const [locationsList, setLocationsList] = useState([]);
@@ -43,6 +44,14 @@ export default function Game(props) {
     
     // Initial data from server
     useEffect(() => {
+        // Get session id
+        axios
+            .get("http://localhost:8000/api/sessions/")
+            .then(response => setSession(response.data))
+            .catch(error => console.log(error));
+        
+            console.log(session)
+
         // Get list of characters
         axios
             .get("http://localhost:8000/api/characters/?available=True")
@@ -55,7 +64,6 @@ export default function Game(props) {
             .then(response => setWeaponList(response.data))
             .catch(error => console.log(error));
 
-        
         // Get list of locations
         axios
             .get("http://localhost:8000/api/locations/")
@@ -91,7 +99,6 @@ export default function Game(props) {
                 <Grid container justify="center" alignItems="center">
                     <Grid item>
                         <Grid container>
-                            {console.log(locationsList)}
                             <Room 
                                 roomType={"study"} 
                                 handleMove={handleMove}
