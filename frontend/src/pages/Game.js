@@ -10,17 +10,10 @@ import Grid from '@material-ui/core/Grid';
 /**
  * TO DO LIST:
  * 
-<<<<<<< HEAD
  * Render initial starting positions for characters and weapons
  * Disable invalid moves
  * API call for suggestion - {card: "", player: ""}
  * API call for accusation - {correct: "true"}
-=======
- * Rebase on new backend
- * Update anything that breaks
- * Render initial starting positions for characters and weapons
->>>>>>> 4ddaef50ad797a849ce978cd9e861175b116420f
- * 
  */
 
 export default function Game(props) {
@@ -46,29 +39,6 @@ export default function Game(props) {
         room: ""
     });
 
-    const validMoves = {
-        study: ["study_hall", "study_library", "kitchen"],
-        study_hall: ["study", "hall"],
-        hall: ["study_hall", "hall_lounge"],
-        hall_lounge: ["hall", "lounge"],
-        lounge: ["hall_lounge", "lounge_dining", "conservatory"],
-        study_library: ["study", "library"],
-        hall_billiard: ["hall", "billiard"],
-        lounge_dining: ["lounge", "dining"],
-        library: ["study_library", "library_conservatory", "library_billiard"],
-        library_billiard: ["library", "billiard"],
-        billiard: ["hall_billiard", "billiard_dining", "billiard_ballroom", "library_billiard"],
-        billiard_dining: ["billiard", "dining"],
-        dining: ["lounge_dining", "billiard_dining", "dining_kitchen"],
-        library_conservatory: ["library", "conservatory"],
-        billiard_ballroom: ["billiard", "ballroom"],
-        dining_kitchen: ["dining", "kitchen"],
-        conservatory: ["library_conservatory", "conservatory_ballroom"],
-        conservatory_ballroom: ["conservatory", "ballroom"],
-        ballroom: ["billiard_ballroom", "ballroom_kitchen", "conservatory_ballroom"],
-        ballroom_kitchen: ["ballroom", "kitchen"],
-        kitchen: ["dining_kitchen", "ballroom_kitchen"]
-    };
     
     // Initial data from server
     useEffect(() => {
@@ -90,6 +60,8 @@ export default function Game(props) {
             .then(response => setLocationsList(response.data))
             .catch(error => console.log(error));
     }, []);
+
+    // Handlers
     const handleMove = (selectedLocation) => {
         // Validation 1: Is the selected location possible?
 
