@@ -10,10 +10,16 @@ import Grid from '@material-ui/core/Grid';
 /**
  * TO DO LIST:
  * 
+<<<<<<< HEAD
  * Render initial starting positions for characters and weapons
  * Disable invalid moves
  * API call for suggestion - {card: "", player: ""}
  * API call for accusation - {correct: "true"}
+=======
+ * Rebase on new backend
+ * Update anything that breaks
+ * Render initial starting positions for characters and weapons
+>>>>>>> 4ddaef50ad797a849ce978cd9e861175b116420f
  * 
  */
 
@@ -84,8 +90,6 @@ export default function Game(props) {
             .then(response => setLocationsList(response.data))
             .catch(error => console.log(error));
     }, []);
-
-    // Handlers
     const handleMove = (selectedLocation) => {
         // Validation 1: Is the selected location possible?
 
