@@ -84,7 +84,7 @@ export default function Lobby(props) {
             </Grid>
             
             <Grid item>
-                <Link to="/game">
+                <Link to={{pathname:"/game", state:{characterName: props.location.state.characterName}}}>
                     <Button color="primary" variant="contained">
                         Start Game
                     </Button>

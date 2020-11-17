@@ -10,21 +10,21 @@ import Grid from '@material-ui/core/Grid';
 /**
  * TO DO LIST:
  * 
+ * Render initial starting positions for characters and weapons
  * Disable invalid moves
  * API call for suggestion - {card: "", player: ""}
  * API call for accusation - {correct: "true"}
+ * 
  */
 
 export default function Game(props) {
 
     // Global variables and state
-    const [session, setSession] = useState();
-
     const [characterList, setCharacterList] = useState([]);
     const [weaponList, setWeaponList] = useState([]);
     const [locationsList, setLocationsList] = useState([]);
 
-    const [currLocation, setCurrLocation] = useState(""); // Get from websocket
+    const [currLocation, setCurrLocation] = useState("lounge"); // Get from websocket
     const [nextLocation, setNextLocation] = useState(); // Send to websocket
 
     const [playerChoice, setPlayerChoice] = useState("");
@@ -44,14 +44,6 @@ export default function Game(props) {
     
     // Initial data from server
     useEffect(() => {
-        // Get session id
-        axios
-            .get("http://localhost:8000/api/sessions/")
-            .then(response => setSession(response.data))
-            .catch(error => console.log(error));
-        
-            console.log(session)
-
         // Get list of characters
         axios
             .get("http://localhost:8000/api/characters/?available=True")
@@ -64,7 +56,7 @@ export default function Game(props) {
             .then(response => setWeaponList(response.data))
             .catch(error => console.log(error));
 
-        // Get list of locations
+        // Get list of rooms
         axios
             .get("http://localhost:8000/api/locations/")
             .then(response => setLocationsList(response.data))
@@ -73,6 +65,14 @@ export default function Game(props) {
 
     // Handlers
     const handleMove = (selectedLocation) => {
+        // Validation 1: Is the selected location possible?
+
+        // Validation 2: Is the selected 
+
+        // Check if the location that was clicked is a valid next move. If not, prompt to try again
+            // Do this by comparing `currLocation` with location passed in by
+            //Query the json object in validMoves object to check valid moves
+        console.log(selectedLocation);
         setCurrLocation(selectedLocation);
     }
 
@@ -94,37 +94,32 @@ export default function Game(props) {
             <Grid item xs={12}>
                 <h3>Clue-Less</h3>
             </Grid>
-
+            
             <Grid item xs={7}>
                 <Grid container justify="center" alignItems="center">
                     <Grid item>
                         <Grid container>
                             <Room 
                                 roomType={"study"} 
-                                handleMove={handleMove}
-                                locations={locationsList}/>
+                                handleMove={handleMove}/>
                             
                             <Hallway 
                                 hallwayType={"study_hall"} 
                                 direction={"horizontal"} 
-                                handleMove={handleMove}
-                                locations={locationsList}/>
+                                handleMove={handleMove}/>
 
                             <Room 
                                 roomType={"hall"} 
-                                handleMove={handleMove}
-                                locations={locationsList}/>
+                                handleMove={handleMove}/>
 
                             <Hallway 
                                 hallwayType={"hall_lounge"} 
                                 direction={"horizontal"} 
-                                handleMove={handleMove}
-                                locations={locationsList}/>
+                                handleMove={handleMove}/>
 
                             <Room 
                                 roomType={"lounge"} 
-                                handleMove={handleMove}
-                                locations={locationsList}/>
+                                handleMove={handleMove}/>
                         </Grid>
                     </Grid>
                     
@@ -133,24 +128,21 @@ export default function Game(props) {
                             <Hallway
                                 hallwayType={"study_library"}
                                 direction={"vertical"}
-                                handleMove={handleMove}
-                                locations={locationsList}/>
+                                handleMove={handleMove}/>
 
                             <Room empty={true}/>
 
                             <Hallway
                                 hallwayType={"hall_billiard"}
                                 direction={"vertical"}
-                                handleMove={handleMove}
-                                locations={locationsList}/>
+                                handleMove={handleMove}/>
 
                             <Room empty={true}/>
 
                             <Hallway
                                 hallwayType={"lounge_dining"}
                                 direction={"vertical"}
-                                handleMove={handleMove}
-                                locations={locationsList}/>
+                                handleMove={handleMove}/>
                         </Grid>
                     </Grid>
 
@@ -158,30 +150,25 @@ export default function Game(props) {
                         <Grid container>
                             <Room 
                                 roomType={"library"} 
-                                handleMove={handleMove}
-                                locations={locationsList}/>
+                                handleMove={handleMove}/>
                             
                             <Hallway 
                                 hallwayType={"library_billiard"} 
                                 direction={"horizontal"} 
-                                handleMove={handleMove}
-                                locations={locationsList}/>
+                                handleMove={handleMove}/>
 
                             <Room 
                                 roomType={"billiard"} 
-                                handleMove={handleMove}
-                                locations={locationsList}/>
+                                handleMove={handleMove}/>
 
                             <Hallway 
                                 hallwayType={"billiard_dining"} 
                                 direction={"horizontal"} 
-                                handleMove={handleMove}
-                                locations={locationsList}/>
+                                handleMove={handleMove}/>
 
                             <Room 
                                 roomType={"dining"} 
-                                handleMove={handleMove}
-                                locations={locationsList}/>
+                                handleMove={handleMove}/>
                         </Grid>
                     </Grid>
 
@@ -190,24 +177,21 @@ export default function Game(props) {
                             <Hallway
                                 hallwayType={"library_conservatory"}
                                 direction={"vertical"}
-                                handleMove={handleMove}
-                                locations={locationsList}/>
+                                handleMove={handleMove}/>
 
                             <Room empty={true}/>
 
                             <Hallway
                                 hallwayType={"billiard_ballroom"}
                                 direction={"vertical"}
-                                handleMove={handleMove}
-                                locations={locationsList}/>
+                                handleMove={handleMove}/>
 
                             <Room empty={true}/>
 
                             <Hallway
                                 hallwayType={"dining_kitchen"}
                                 direction={"vertical"}
-                                handleMove={handleMove}
-                                locations={locationsList}/>
+                                handleMove={handleMove}/>
                         </Grid>
                     </Grid>
 
@@ -215,30 +199,25 @@ export default function Game(props) {
                         <Grid container>
                             <Room 
                                 roomType={"conservatory"} 
-                                handleMove={handleMove}
-                                locations={locationsList}/>
+                                handleMove={handleMove}/>
                             
                             <Hallway 
                                 hallwayType={"conservatory_ballroom"} 
                                 direction={"horizontal"} 
-                                handleMove={handleMove}
-                                locations={locationsList}/>
+                                handleMove={handleMove}/>
 
                             <Room 
                                 roomType={"ballroom"} 
-                                handleMove={handleMove}
-                                locations={locationsList}/>
+                                handleMove={handleMove}/>
 
                             <Hallway 
                                 hallwayType={"ballroom_kitchen"} 
                                 direction={"horizontal"} 
-                                handleMove={handleMove}
-                                locations={locationsList}/>
+                                handleMove={handleMove}/>
 
                             <Room 
                                 roomType={"kitchen"} 
-                                handleMove={handleMove}
-                                locations={locationsList}/>
+                                handleMove={handleMove}/>
                         </Grid>
                     </Grid>
 
@@ -313,11 +292,9 @@ export default function Game(props) {
                                 style={{width:"20ch"}}
                                 onChange={event => setAccusation({...accusation, room: event.target.value})}
                             >
-                                {locationsList.map((loc) => {
-                                    if (loc.is_card === true) {
-                                        return (<MenuItem key={loc.name} value={loc.name}>{loc.display_name}</MenuItem>)
-                                    }
-                                })}
+                                {locationsList.map((room) => 
+                                    (<MenuItem key={room.name} value={room.name}>{room.name}</MenuItem>)
+                                )}
                             </TextField>
                         }
                     </Grid>
@@ -327,6 +304,8 @@ export default function Game(props) {
                     </Grid>
                 </Grid>
             </Grid>
+
+
         </Grid>
         
   
