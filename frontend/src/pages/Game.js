@@ -23,26 +23,23 @@ export default function Game(props) {
     const [weaponList, setWeaponList] = useState([]);
     const [locationsList, setLocationsList] = useState([]);
 
+    const [userName, setUserName] = useState(props.location.state.userName);
+
     const [currLocation, setCurrLocation] = useState(""); // Get from websocket
     const [nextLocation, setNextLocation] = useState(""); // Send to websocket
-
-    const [playerInfo, setPlayerInfo] = useState({
-        username: props.location.state.username,
-        currChoice: ""
-    });
 
     const [playerChoice, setPlayerChoice] = useState("");
 
     const [suggestion, setSuggestion] = useState({
-        character: "",
-        weapon: "",
-        room: ""
+        character: 0,
+        weapon: 0,
+        location: ""
     });
 
     const [accusation, setAccusation] = useState({
-        character: "",
-        weapon: "",
-        room: ""
+        character: 0,
+        weapon: 0,
+        location: ""
     });
 
     
@@ -81,8 +78,29 @@ export default function Game(props) {
 
     const submitChoice = () => {
         // Nice to have - error checking to make sure user doesn't submit incomplete choices
-        playerChoice === "suggestion" ? console.log(suggestion) : console.log(accusation);
-        console.log(playerInfo);
+        playerChoice === "suggestion" ? 
+            axios({
+                method: 'post',
+                url: 'http://localhost:8000/api/suggestion/',
+                data: {
+                    session_id: 5,
+                    player: userName,
+                    character: suggestion.character,
+                    weapon: suggestion.weapon,
+                    location: suggestion.location,
+                }
+            }) :
+            axios({
+                method: 'post',
+                url: 'http://localhost:8000/api/accusation/',
+                data: {
+                    session_id: 5,
+                    player: userName,
+                    character: accusation.character,
+                    weapon: accusation.weapon,
+                    location: accusation.location,
+                }
+            });
     }
 
 
@@ -272,7 +290,7 @@ export default function Game(props) {
                             onChange={event => playerChoice === "suggestion"? setSuggestion({...suggestion, character: event.target.value}) : setAccusation({...accusation, character: event.target.value})} 
                         >
                             {characterList.map((char) => 
-                                (<MenuItem key={char.name} value={char.name}>{char.name}</MenuItem>)
+                                (<MenuItem key={char.id} value={char.id}>{char.name}</MenuItem>)
                             )}
                         </TextField>
                     </Grid>
@@ -287,7 +305,7 @@ export default function Game(props) {
                             onChange={event => playerChoice === "suggestion"? setSuggestion({...suggestion, weapon: event.target.value}) : setAccusation({...accusation, weapon: event.target.value})}
                         >
                             {weaponList.map((wp) => 
-                                (<MenuItem key={wp.name} value={wp.name}>{wp.name}</MenuItem>)
+                                (<MenuItem key={wp.id} value={wp.id}>{wp.name}</MenuItem>)
                             )}
                         </TextField>
                     </Grid>
