@@ -1,4 +1,7 @@
 from django.http import JsonResponse
+from django.views.decorators.csrf import csrf_exempt
+from django.utils.decorators import method_decorator
+import json
 from rest_framework import viewsets
 from .serializers import (
     CharacterSerializer,
@@ -13,13 +16,19 @@ from django.shortcuts import render
 
 
 def start_game(request, session_id):
+
     session = Session.objects.get(pk=session_id)
     players = Player.objects.filter(game_session=session_id).order_by("?")
 
     # Set winning character then assign remainder to players.
     session.character = Character.objects.order_by("?").first()
 
-    while Character.objects.filter(holder__isnull=True).count() != 0:
+    while (
+        Character.objects.exclude(pk=session.character.pk)
+        .filter(holder__isnull=True)
+        .count()
+        != 0
+    ):
         for player in players:
             character = (
                 Character.objects.exclude(pk=session.character.pk)
@@ -36,7 +45,10 @@ def start_game(request, session_id):
     # Set winning weapon then assign remainder to players.
     session.weapon = Weapon.objects.order_by("?").first()
 
-    while Weapon.objects.filter(holder__isnull=True).count() != 0:
+    while (
+        Weapon.objects.exclude(pk=session.weapon.pk).filter(holder__isnull=True).count()
+        != 0
+    ):
         for player in players:
             weapon = (
                 Weapon.objects.exclude(pk=session.weapon.pk)
@@ -54,7 +66,11 @@ def start_game(request, session_id):
     session.room = Location.objects.filter(is_card=True).order_by("?").first()
 
     while (
-        Location.objects.filter(is_card=True).filter(holder__isnull=True).count() != 0
+        Location.objects.exclude(pk=session.room.pk)
+        .filter(is_card=True)
+        .filter(holder__isnull=True)
+        .count()
+        != 0
     ):
         for player in players:
             room = (
@@ -77,6 +93,72 @@ def start_game(request, session_id):
         "session_id": session_id,
         "message": "Game successfully started",
     }
+    return JsonResponse(data)
+
+
+@method_decorator(csrf_exempt, name="dispatch")
+def suggestion(request):
+    body_unicode = request.body.decode("utf-8")
+    body = json.loads(body_unicode)
+
+    suggested_character = Character.objects.filter(pk=body["character"]).first()
+    suggested_weapon = Weapon.objects.filter(pk=body["weapon"]).first()
+    suggested_location = Location.objects.filter(pk=body["location"]).first()
+
+    # Orders the players to start with the suggesting player.
+    players = list(Player.objects.filter(game_session=body["session_id"]))
+
+    for index, player in enumerate(players):
+        if player.id == body["player"]:
+            player_index = index
+            break
+
+    players = players[player_index:] + players[:player_index]
+    players.pop(0)
+
+    for player in players:
+        # TODO randomize the order of which type of card is checked first.
+        if suggested_character in list(Character.objects.filter(holder=player)):
+            data = {
+                "player_name": player.user_name,
+                "card_name": suggested_character.name,
+            }
+            break
+        elif suggested_weapon in list(Weapon.objects.filter(holder=player)):
+            data = {"player_name": player.user_name, "card_name": suggested_weapon.name}
+            break
+        elif suggested_location in list(Location.objects.filter(holder=player)):
+            data = {
+                "player_name": player.user_name,
+                "card_name": suggested_location.display_name,
+            }
+            break
+        else:
+            data = {"player_name": "", "card_name": ""}
+
+    return JsonResponse(data)
+
+
+@method_decorator(csrf_exempt, name="dispatch")
+def accusation(request):
+    body_unicode = request.body.decode("utf-8")
+    body = json.loads(body_unicode)
+
+    suggested_character = Character.objects.filter(pk=body["character"]).first()
+    suggested_weapon = Weapon.objects.filter(pk=body["weapon"]).first()
+    suggested_location = Location.objects.filter(pk=body["location"]).first()
+
+    session = Session.objects.filter(pk=body["session_id"]).first()
+
+    if (
+        suggested_character == session.character
+        and suggested_weapon == session.weapon
+        and suggested_location == session.room
+    ):
+        data = {"correct": True}
+    else:
+        data = {"correct": False}
+
     return JsonResponse(data)
 
 
@@ -124,23 +206,6 @@ class PlayerView(viewsets.ModelViewSet):
 class SessionView(viewsets.ModelViewSet):
     serializer_class = SessionSerializer
     queryset = Session.objects.all()
-
-    def get_queryset(self):
-        """ Allows for generating wining cards """
-        queryset = Session.objects.all()
-        generate = self.request.query_params.get("generate", None)
-        _id = self.request.query_params.get("id", None)
-        if generate is not None:
-            # TODO Adjust to filter on game sessions.
-            used_characters = list()
-            for player in Player.objects.all():
-                used_characters.append(player.user_character.name)
-            if available == "True":
-                queryset = queryset.exclude(name__in=used_characters)
-            elif available == "False":
-                queryset = queryset.filter(name__in=used_characters)
-
-        return queryset
 
 
 class WeaponView(viewsets.ModelViewSet):
