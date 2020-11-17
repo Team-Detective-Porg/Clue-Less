@@ -83,7 +83,7 @@ export default function Game(props) {
                 method: 'post',
                 url: 'http://localhost:8000/api/suggestion/',
                 data: {
-                    session_id: 5,
+                    session_id: 1,
                     player: userName,
                     character: suggestion.character,
                     weapon: suggestion.weapon,
@@ -94,7 +94,7 @@ export default function Game(props) {
                 method: 'post',
                 url: 'http://localhost:8000/api/accusation/',
                 data: {
-                    session_id: 5,
+                    session_id: 1,
                     player: userName,
                     character: accusation.character,
                     weapon: accusation.weapon,
