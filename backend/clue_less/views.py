@@ -109,7 +109,7 @@ def suggestion(request):
     players = list(Player.objects.filter(game_session=body["session_id"]))
 
     for index, player in enumerate(players):
-        if player.id == body["player"]:
+        if player.user_name == body["player"]:
             player_index = index
             break
 
