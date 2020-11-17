@@ -60,6 +60,7 @@ export default function Game(props) {
     function sendMove() {
         const data = {
             'move_type': 'move',
+            'user_name': userName,
             'location': currLocation
         }
         try {
@@ -73,7 +74,22 @@ export default function Game(props) {
     function sendSuggestion() {
         const data = {
             'move_type': 'suggestion',
-            'location': null,
+            'user_name': userName,
+            'suggestion': suggestion
+        }
+        try {
+            WebSocketInstance.sendMessage(data);
+        }
+        catch(err) {
+            console.log(err.message);
+        }  
+    }
+
+    function sendAccusation() {
+        const data = {
+            'move_type': 'accusation',
+            'user_name': userName,
+            'accusation': accusation
         }
         try {
             WebSocketInstance.sendMessage(data);
@@ -84,8 +100,7 @@ export default function Game(props) {
     }
 
     function handleIncomingData(data){
-        console.log(data);
-        // setUserSelections(data);
+        console.log('Incoming data to Game.js: ' + data);
     }
 
     function addCallbacks() {
@@ -98,9 +113,15 @@ export default function Game(props) {
         // set Web Socket callbacks
         WebSocketInstance.connect();
         addCallbacks();
+        // start game
+        axios
+            .get('http://localhost:8000/gamestart/1')
+            .then(response => setSession(response.data))
+            .catch(error => console.log(error));
+
         // Get list of characters
         axios
-            .get("http://localhost:8000/api/characters/?available=True")
+            .get("http://localhost:8000/api/characters/") //?available=True
             .then(response => setCharacterList(response.data))
             .catch(error => console.log(error));
 
@@ -120,20 +141,20 @@ export default function Game(props) {
     // Handlers
     const handleMove = (selectedLocation) => {
         setCurrLocation(selectedLocation);
+        console.log(characterList);
         waitForSocketConnection(sendMove);
     }
 
     const handleChoice = (value) => {
         setPlayerChoice(value);
         if (value === "suggestion") {
-            setSuggestion({...suggestion, room: currLocation});
-            waitForSocketConnection(sendSuggestion);
+            setSuggestion({...suggestion, location: currLocation});
         }
     }
 
     const submitChoice = () => {
         // Nice to have - error checking to make sure user doesn't submit incomplete choices
-        playerChoice === "suggestion" ? 
+        if (playerChoice === "suggestion") { 
             axios({
                 method: 'post',
                 url: 'http://localhost:8000/suggestion/',
@@ -144,7 +165,10 @@ export default function Game(props) {
                     weapon: suggestion.weapon,
                     location: suggestion.location,
                 }
-            }) :
+            });
+            waitForSocketConnection(sendSuggestion); 
+        }
+        else {
             axios({
                 method: 'post',
                 url: 'http://localhost:8000/accusation/',
@@ -156,6 +180,8 @@ export default function Game(props) {
                     location: accusation.location,
                 }
             });
+            waitForSocketConnection(sendAccusation); 
+        }
     }
 
 
@@ -378,10 +404,10 @@ export default function Game(props) {
                             <TextField
                                 select
                                 label="Room"
-                                value={accusation.room}
+                                value={accusation.location}
                                 variant="outlined"
                                 style={{width:"20ch"}}
-                                onChange={event => setAccusation({...accusation, room: event.target.value})}
+                                onChange={event => setAccusation({...accusation, location: event.target.value})}
                             >
                                 {locationsList.map((loc) => {
                                     if (loc.is_card === true) {

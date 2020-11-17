@@ -57,7 +57,7 @@ class Player(models.Model):
     user_name = models.CharField(max_length=120, blank=False, unique=True)
 
     def _str_(self):
-        return self.name
+        return self.user_name
 
 
 class Session(models.Model):

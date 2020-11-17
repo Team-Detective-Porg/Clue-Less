@@ -9,6 +9,7 @@ from channels.generic.websocket import WebsocketConsumer, JsonWebsocketConsumer
 from channels.consumer import AsyncConsumer
 from channels.layers import get_channel_layer
 from .serializers import *
+from .views import *
 
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
@@ -21,7 +22,6 @@ class ChatConsumer(WebsocketConsumer):
 
     def disconnect(self):
         async_to_sync(self.channel_layer.group_discard)("lobby", self.channel_name)
-
 
     def receive(self, text_data):
         """
@@ -77,7 +77,10 @@ class GameConsumer(JsonWebsocketConsumer):
         logger.info(text_data_json)
 
         move_type = text_data_json['move_type']
-        location = text_data_json['location']
+        if (move_type == 'move'):
+            data = text_data_json['location']
+        elif (move_type == 'suggestion'):
+            data = text_data_json['suggestion']
         
         async_to_sync(self.channel_layer.group_send)(
             "game",
