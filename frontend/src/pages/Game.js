@@ -78,7 +78,29 @@ export default function Game(props) {
 
     const submitChoice = () => {
         // Nice to have - error checking to make sure user doesn't submit incomplete choices
-        console.log(userName);
+        playerChoice === "suggestion" ? 
+            axios({
+                method: 'post',
+                url: 'http://localhost:8000/suggestion/',
+                data: {
+                    session_id: 1,
+                    player: userName,
+                    character: suggestion.character,
+                    weapon: suggestion.weapon,
+                    location: suggestion.location,
+                }
+            }) :
+            axios({
+                method: 'post',
+                url: 'http://localhost:8000/accusation/',
+                data: {
+                    session_id: 1,
+                    player: userName,
+                    character: accusation.character,
+                    weapon: accusation.weapon,
+                    location: accusation.location,
+                }
+            });
     }
 
 
