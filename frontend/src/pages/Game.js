@@ -6,6 +6,7 @@ import Button from '@material-ui/core/Button';
 import Room from '../Room.js';
 import Hallway from '../Hallway.js';
 import Grid from '@material-ui/core/Grid';
+import WebSocketInstance from '../channels/WebSocket.js'
 
 /**
  * TO DO LIST:
@@ -20,6 +21,7 @@ export default function Game(props) {
     // Global variables and state
     const [session, setSession] = useState();
 
+    // State information
     const [characterList, setCharacterList] = useState([]);
     const [weaponList, setWeaponList] = useState([]);
     const [locationsList, setLocationsList] = useState([]);
@@ -41,9 +43,58 @@ export default function Game(props) {
         room: ""
     });
 
+    // Game WebSocket init
+    function waitForSocketConnection(callback) {
+        setTimeout(() => {
+        if (WebSocketInstance.state() === 1) {
+            callback();
+        } else {
+            waitForSocketConnection(callback);
+        }
+        }, 100);
+    }
+
+    function sendMove() {
+        const data = {
+            'move_type': 'move',
+            'location': currLocation
+        }
+        try {
+            WebSocketInstance.sendMessage(data);
+        }
+        catch(err) {
+            console.log(err.message);
+        }  
+    }
+
+    function sendSuggestion() {
+        const data = {
+            'move_type': 'suggestion',
+            'location': null,
+        }
+        try {
+            WebSocketInstance.sendMessage(data);
+        }
+        catch(err) {
+            console.log(err.message);
+        }  
+    }
+
+    function handleIncomingData(data){
+        console.log(data);
+        // setUserSelections(data);
+    }
+
+    function addCallbacks() {
+        WebSocketInstance.addCallbacks('game.message', handleIncomingData);
+    }
+
     
     // Initial data from server
     useEffect(() => {
+        // set Web Socket callbacks
+        WebSocketInstance.connect();
+        addCallbacks();
         // Get session id
         axios
             .get("http://localhost:8000/api/sessions/")
@@ -74,12 +125,14 @@ export default function Game(props) {
     // Handlers
     const handleMove = (selectedLocation) => {
         setCurrLocation(selectedLocation);
+        waitForSocketConnection(sendMove);
     }
 
     const handleChoice = (value) => {
         setPlayerChoice(value);
         if (value === "suggestion") {
             setSuggestion({...suggestion, room: currLocation});
+            waitForSocketConnection(sendSuggestion);
         }
     }
 

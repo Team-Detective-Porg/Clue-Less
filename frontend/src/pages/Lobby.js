@@ -46,11 +46,12 @@ export default function Lobby(props) {
     }
 
     function handleIncomingData(data){
+        console.log(data.player_list);
         setUserSelections(data.player_list);
     }
 
     function addCallbacks() {
-        WebSocketInstance.addCallbacks('chat.message', handleIncomingData);
+        WebSocketInstance.addCallbacks('lobby.message', handleIncomingData);
     }
 
     return (
