@@ -11,9 +11,10 @@ import WebSocketInstance from '../channels/WebSocket.js'
 /**
  * TO DO LIST:
  * 
+ * POST request for suggestion - {card: "", player: ""}
+ * POST request for accusation - {correct: "true"}
  * Disable invalid moves
- * API call for suggestion - {card: "", player: ""}
- * API call for accusation - {correct: "true"}
+ * 
  */
 
 export default function Game(props) {
@@ -26,21 +27,23 @@ export default function Game(props) {
     const [weaponList, setWeaponList] = useState([]);
     const [locationsList, setLocationsList] = useState([]);
 
+    const [userName, setUserName] = useState(props.location.state.userName);
+
     const [currLocation, setCurrLocation] = useState(""); // Get from websocket
-    const [nextLocation, setNextLocation] = useState(); // Send to websocket
+    const [nextLocation, setNextLocation] = useState(""); // Send to websocket
 
     const [playerChoice, setPlayerChoice] = useState("");
 
     const [suggestion, setSuggestion] = useState({
-        character: "",
-        weapon: "",
-        room: ""
+        character: 0,
+        weapon: 0,
+        location: ""
     });
 
     const [accusation, setAccusation] = useState({
-        character: "",
-        weapon: "",
-        room: ""
+        character: 0,
+        weapon: 0,
+        location: ""
     });
 
     // Game WebSocket init
@@ -95,14 +98,6 @@ export default function Game(props) {
         // set Web Socket callbacks
         WebSocketInstance.connect();
         addCallbacks();
-        // Get session id
-        axios
-            .get("http://localhost:8000/api/sessions/")
-            .then(response => setSession(response.data))
-            .catch(error => console.log(error));
-        
-            console.log(session)
-
         // Get list of characters
         axios
             .get("http://localhost:8000/api/characters/?available=True")
@@ -115,7 +110,7 @@ export default function Game(props) {
             .then(response => setWeaponList(response.data))
             .catch(error => console.log(error));
 
-        // Get list of locations
+        // Get list of rooms
         axios
             .get("http://localhost:8000/api/locations/")
             .then(response => setLocationsList(response.data))
@@ -138,7 +133,29 @@ export default function Game(props) {
 
     const submitChoice = () => {
         // Nice to have - error checking to make sure user doesn't submit incomplete choices
-        playerChoice === "suggestion" ? console.log(suggestion) : console.log(accusation);
+        playerChoice === "suggestion" ? 
+            axios({
+                method: 'post',
+                url: 'http://localhost:8000/suggestion/',
+                data: {
+                    session_id: 1,
+                    player: userName,
+                    character: suggestion.character,
+                    weapon: suggestion.weapon,
+                    location: suggestion.location,
+                }
+            }) :
+            axios({
+                method: 'post',
+                url: 'http://localhost:8000/accusation/',
+                data: {
+                    session_id: 1,
+                    player: userName,
+                    character: accusation.character,
+                    weapon: accusation.weapon,
+                    location: accusation.location,
+                }
+            });
     }
 
 
@@ -147,7 +164,7 @@ export default function Game(props) {
             <Grid item xs={12}>
                 <h3>Clue-Less</h3>
             </Grid>
-
+            
             <Grid item xs={7}>
                 <Grid container justify="center" alignItems="center">
                     <Grid item>
@@ -328,7 +345,7 @@ export default function Game(props) {
                             onChange={event => playerChoice === "suggestion"? setSuggestion({...suggestion, character: event.target.value}) : setAccusation({...accusation, character: event.target.value})} 
                         >
                             {characterList.map((char) => 
-                                (<MenuItem key={char.name} value={char.name}>{char.name}</MenuItem>)
+                                (<MenuItem key={char.id} value={char.id}>{char.name}</MenuItem>)
                             )}
                         </TextField>
                     </Grid>
@@ -343,7 +360,7 @@ export default function Game(props) {
                             onChange={event => playerChoice === "suggestion"? setSuggestion({...suggestion, weapon: event.target.value}) : setAccusation({...accusation, weapon: event.target.value})}
                         >
                             {weaponList.map((wp) => 
-                                (<MenuItem key={wp.name} value={wp.name}>{wp.name}</MenuItem>)
+                                (<MenuItem key={wp.id} value={wp.id}>{wp.name}</MenuItem>)
                             )}
                         </TextField>
                     </Grid>
@@ -380,6 +397,8 @@ export default function Game(props) {
                     </Grid>
                 </Grid>
             </Grid>
+
+
         </Grid>
         
   
