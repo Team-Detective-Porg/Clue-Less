@@ -141,7 +141,9 @@ export default function Game(props) {
     // Handlers
     const handleMove = (selectedLocation) => {
         setCurrLocation(selectedLocation);
-        console.log(characterList);
+        alert("Move " + userName + " to: " + selectedLocation);
+        //console.log("characterList: " + JSON.stringify(characterList));
+        console.log("locationsList: " + JSON.stringify(locationsList));
         waitForSocketConnection(sendMove);
     }
 
@@ -165,7 +167,7 @@ export default function Game(props) {
                     weapon: suggestion.weapon,
                     location: suggestion.location,
                 }
-            });
+            }).then(response => alert("Suggestion: " + JSON.stringify(response.data)));
             waitForSocketConnection(sendSuggestion); 
         }
         else {
@@ -179,7 +181,7 @@ export default function Game(props) {
                     weapon: accusation.weapon,
                     location: accusation.location,
                 }
-            });
+            }).then(response => alert("Accusation: " + JSON.stringify(response.data)));
             waitForSocketConnection(sendAccusation); 
         }
     }

@@ -77,10 +77,10 @@ class GameConsumer(JsonWebsocketConsumer):
         logger.info(text_data_json)
 
         move_type = text_data_json['move_type']
-        if (move_type == 'move'):
-            data = text_data_json['location']
-        elif (move_type == 'suggestion'):
-            data = text_data_json['suggestion']
+        #if (move_type == 'move'):
+        #    data = text_data_json['location']
+        #elif (move_type == 'suggestion'):
+        #    data = text_data_json['suggestion']
         
         async_to_sync(self.channel_layer.group_send)(
             "game",
