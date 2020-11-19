@@ -20,9 +20,16 @@ from clue_less import views
 
 router = routers.DefaultRouter()
 router.register(r"characters", views.CharacterView, "character")
-router.register(r"rooms", views.RoomView, "room")
+router.register(r"locations", views.LocationView, "location")
 router.register(r"players", views.PlayerView, "player")
 router.register(r"sessions", views.SessionView, "session")
 router.register(r"weapons", views.WeaponView, "weapon")
 
-urlpatterns = [path("admin/", admin.site.urls), path("api/", include(router.urls))]
+
+urlpatterns = [
+    path("admin/", admin.site.urls),
+    path("api/", include(router.urls)),
+    path("gamestart/<int:session_id>/", views.start_game),
+    path("suggestion/", views.suggestion),
+    path("accusation/", views.accusation),
+]

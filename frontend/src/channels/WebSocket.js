@@ -15,12 +15,14 @@ class WebSocketService {
 
   connect() {
     const roomName = window.location.pathname.substr(1);
+    console.log(roomName);
     var path = 'ws://'
-        + 'localhost:8000'
-        + '/lobby/';
+        + 'localhost:8000/'
+        + roomName 
+        + '/';
     this.socketRef = new WebSocket(path);
     this.socketRef.onopen = () => {
-      console.log('WebSocket open');
+      console.log('WebSocket open: ' + roomName);
     };
     this.socketRef.onmessage = e => {
       this.socketNewMessage(e.data);
@@ -42,8 +44,12 @@ class WebSocketService {
     if (Object.keys(this.callbacks).length === 0) {
       return;
     }
-    if (type === 'chat.message') {
-      console.log(this.callbacks[type])
+    if (type === 'lobby.message') {
+      // console.log(this.callbacks[type])
+      this.callbacks[type](parsedData);
+    }
+    if (type === 'game.message') {
+      // console.log(this.callbacks[type])
       this.callbacks[type](parsedData);
     }
   }

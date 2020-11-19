@@ -1,8 +1,8 @@
 import React from 'react';
 import { Switch, Route } from 'react-router-dom';
-import Homepage from '../pages/Homepage';
-import Lobby from '../pages/Lobby'
-import Game from '../pages/Game'
+import Homepage from './Homepage.js';
+import Lobby from './Lobby.js'
+import Game from './Game.js'
 
 const Main = () => {
     return (

@@ -10,7 +10,7 @@ import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
 import Button from '@material-ui/core/Button';
 import { Link } from "react-router-dom";
-import WebSocketInstance from '../WebSocket'
+import WebSocketInstance from '../channels/WebSocket.js'
 
 
 export default function Lobby(props) {
@@ -22,7 +22,6 @@ export default function Lobby(props) {
         WebSocketInstance.connect();
         addCallbacks();
         waitForSocketConnection(sendMessage);
-        console.log(userSelections);
     }, []);
 
     function waitForSocketConnection(callback) {
@@ -47,11 +46,12 @@ export default function Lobby(props) {
     }
 
     function handleIncomingData(data){
+        console.log(data.player_list);
         setUserSelections(data.player_list);
     }
 
     function addCallbacks() {
-        WebSocketInstance.addCallbacks('chat.message', handleIncomingData);
+        WebSocketInstance.addCallbacks('lobby.message', handleIncomingData);
     }
 
     return (
@@ -80,15 +80,12 @@ export default function Lobby(props) {
                             </TableRow>
                             ))}
                         </TableBody>
-                        {/* {
-                            Depending on how the data comes back you can use a mapping function to generate table rows/cells
-                        } */}
                     </Table>
                 </TableContainer>
             </Grid>
             
             <Grid item>
-                <Link to="/game">
+                <Link to={{pathname:"/game", state:{userName: props.location.state.userName}}}>
                     <Button color="primary" variant="contained">
                         Start Game
                     </Button>
