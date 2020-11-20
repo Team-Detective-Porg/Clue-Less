@@ -34,6 +34,10 @@ export default function Room(props) {
         return disabled;
     }
 
+    const isSecretPassageDisabled = () => {
+        // Disable when not in current room, props.currLocation != props.roomType
+    }
+
     return (
         props.empty === true ?
         <Grid item>
@@ -62,9 +66,10 @@ export default function Room(props) {
                     props.roomType === "study" ? 
                     <Button 
                         variant="contained" 
+                        color="secondary"
                         className={styling.root}
                         style={{zIndex:20, padding:"0px", width: "25px", height: "25px", marginTop: "-60px", marginLeft: "95px"}} 
-                        disabled={isDisabled()}
+                        disabled={props.currLocation != props.roomType}
                         onClick={() => props.handleMove("kitchen")}
                     >
                         &#8600;
@@ -75,9 +80,10 @@ export default function Room(props) {
                     props.roomType === "lounge" ? 
                     <Button 
                         variant="contained" 
+                        color="secondary"
                         className={styling.root}
                         style={{zIndex:20, padding:"0px", width: "25px", height: "25px", marginTop: "-60px", marginLeft: "5px"}} 
-                        disabled={isDisabled()}
+                        disabled={props.currLocation != props.roomType}
                         onClick={() => props.handleMove("conservatory")}
                     >
                         &#8601;
@@ -88,9 +94,10 @@ export default function Room(props) {
                     props.roomType === "conservatory" ? 
                     <Button 
                         variant="contained" 
+                        color="secondary"
                         className={styling.root}
                         style={{zIndex:20, padding:"0px", width: "25px", height: "25px", marginTop: "-240px", marginLeft: "95px"}} 
-                        disabled={isDisabled()}
+                        disabled={props.currLocation != props.roomType}
                         onClick={() => props.handleMove("lounge")}
                     >
                         &#8599;
@@ -101,9 +108,10 @@ export default function Room(props) {
                     props.roomType === "kitchen" ? 
                     <Button 
                         variant="contained" 
+                        color="secondary"
                         className={styling.root}
                         style={{zIndex:20, padding:"0px", width: "25px", height: "25px", marginTop: "-240px", marginLeft: "5px"}} 
-                        disabled={isDisabled()}
+                        disabled={props.currLocation != props.roomType}
                         onClick={() => props.handleMove("study")}
                     >
                         &#8598;
