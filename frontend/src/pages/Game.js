@@ -10,13 +10,6 @@ import WebSocketInstance from '../channels/WebSocket.js'
 
 var jsonQuery = require("json-query");
 
-/**
- * TO DO LIST:
- * 
- * Disable invalid moves
- * 
- */
-
 export default function Game(props) {
 
     // Global variables and state
