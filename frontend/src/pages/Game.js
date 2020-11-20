@@ -11,8 +11,7 @@ import WebSocketInstance from '../channels/WebSocket.js'
 /**
  * TO DO LIST:
  * 
- * POST request for suggestion - {card: "", player: ""}
- * POST request for accusation - {correct: "true"}
+ * Change rendering to use locations
  * Disable invalid moves
  * 
  */
@@ -21,8 +20,6 @@ export default function Game(props) {
 
     // Global variables and state
     const [session, setSession] = useState();
-
-    // State information
     const [characterList, setCharacterList] = useState([]);
     const [weaponList, setWeaponList] = useState([]);
     const [locationsList, setLocationsList] = useState([]);
@@ -426,9 +423,6 @@ export default function Game(props) {
                 </Grid>
             </Grid>
 
-
         </Grid>
-        
-  
     );
 }

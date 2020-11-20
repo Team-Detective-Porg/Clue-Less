@@ -14,12 +14,15 @@ const useStyles = makeStyles({
 export default function Hallway(props) {
     const styling = useStyles();
 
-    const getCharacter = () => {
+    const getCharacters = () => {
+        var returnList = [];
         var characterList = jsonQuery(`data[name=${props.hallwayType}].characterList`, {data: {data: props.locations}}).value;
         
-        var character = characterList === null || characterList.length === 0 ? null : characterList[0].name;
-
-        return character;
+        if (characterList === null || typeof characterList === 'undefined') {
+            return returnList;
+        } else {
+            return characterList;
+        }
     }
 
     return (
@@ -32,7 +35,14 @@ export default function Hallway(props) {
                             variant="contained" 
                             style={{width:"125px", height: "50px"}} 
                             onClick={() => {props.handleMove(props.hallwayType)}}>
-                            {getCharacter()}
+                            <Grid container direction="column">
+                                {getCharacters() === null ? null : 
+                                    getCharacters().map(char => 
+                                        <Grid item>
+                                            {char.name}
+                                        </Grid>
+                                )}
+                            </Grid>
                         </Button>
                     </Grid>
                 </Grid>
@@ -43,7 +53,14 @@ export default function Hallway(props) {
                             variant="contained" 
                             style={{width:"50px", height: "125px"}} 
                             onClick={() => {props.handleMove(props.hallwayType)}}>
-                            {getCharacter()}
+                            <Grid container direction="column" alignItems="flex-start" justify="flex-start">
+                                {getCharacters() === null ? null : 
+                                    getCharacters().map(char => 
+                                        <Grid item>
+                                            {char.name}
+                                        </Grid>
+                                )}
+                            </Grid>
                         </Button>
                     </Grid>
                 </Grid>
