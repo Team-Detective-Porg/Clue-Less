@@ -13,7 +13,6 @@ var jsonQuery = require("json-query");
 /**
  * TO DO LIST:
  * 
- * Get current player state
  * Disable invalid moves
  * 
  */
@@ -200,29 +199,34 @@ export default function Game(props) {
                             <Room 
                                 roomType={"study"} 
                                 handleMove={handleMove}
-                                locations={locationsList}/>
+                                locations={locationsList}
+                                currLocation={currLocation}/>
                             
                             <Hallway 
                                 hallwayType={"study_hall"} 
                                 direction={"horizontal"} 
                                 handleMove={handleMove}
-                                locations={locationsList}/>
+                                locations={locationsList}
+                                currLocation={currLocation}/>
 
                             <Room 
                                 roomType={"hall"} 
                                 handleMove={handleMove}
-                                locations={locationsList}/>
+                                locations={locationsList}
+                                currLocation={currLocation}/>
 
                             <Hallway 
                                 hallwayType={"hall_lounge"} 
                                 direction={"horizontal"} 
                                 handleMove={handleMove}
-                                locations={locationsList}/>
+                                locations={locationsList}
+                                currLocation={currLocation}/>
 
                             <Room 
                                 roomType={"lounge"} 
                                 handleMove={handleMove}
-                                locations={locationsList}/>
+                                locations={locationsList}
+                                currLocation={currLocation}/>
                         </Grid>
                     </Grid>
                     
@@ -232,7 +236,8 @@ export default function Game(props) {
                                 hallwayType={"study_library"}
                                 direction={"vertical"}
                                 handleMove={handleMove}
-                                locations={locationsList}/>
+                                locations={locationsList}
+                                currLocation={currLocation}/>
 
                             <Room empty={true}/>
 
@@ -240,7 +245,8 @@ export default function Game(props) {
                                 hallwayType={"hall_billiard"}
                                 direction={"vertical"}
                                 handleMove={handleMove}
-                                locations={locationsList}/>
+                                locations={locationsList}
+                                currLocation={currLocation}/>
 
                             <Room empty={true}/>
 
@@ -248,7 +254,8 @@ export default function Game(props) {
                                 hallwayType={"lounge_dining"}
                                 direction={"vertical"}
                                 handleMove={handleMove}
-                                locations={locationsList}/>
+                                locations={locationsList}
+                                currLocation={currLocation}/>
                         </Grid>
                     </Grid>
 
@@ -257,29 +264,34 @@ export default function Game(props) {
                             <Room 
                                 roomType={"library"} 
                                 handleMove={handleMove}
-                                locations={locationsList}/>
+                                locations={locationsList}
+                                currLocation={currLocation}/>
                             
                             <Hallway 
                                 hallwayType={"library_billiard"} 
                                 direction={"horizontal"} 
                                 handleMove={handleMove}
-                                locations={locationsList}/>
+                                locations={locationsList}
+                                currLocation={currLocation}/>
 
                             <Room 
                                 roomType={"billiard"} 
                                 handleMove={handleMove}
-                                locations={locationsList}/>
+                                locations={locationsList}
+                                currLocation={currLocation}/>
 
                             <Hallway 
                                 hallwayType={"billiard_dining"} 
                                 direction={"horizontal"} 
                                 handleMove={handleMove}
-                                locations={locationsList}/>
+                                locations={locationsList}
+                                currLocation={currLocation}/>
 
                             <Room 
                                 roomType={"dining"} 
                                 handleMove={handleMove}
-                                locations={locationsList}/>
+                                locations={locationsList}
+                                currLocation={currLocation}/>
                         </Grid>
                     </Grid>
 
@@ -289,7 +301,8 @@ export default function Game(props) {
                                 hallwayType={"library_conservatory"}
                                 direction={"vertical"}
                                 handleMove={handleMove}
-                                locations={locationsList}/>
+                                locations={locationsList}
+                                currLocation={currLocation}/>
 
                             <Room empty={true}/>
 
@@ -297,7 +310,8 @@ export default function Game(props) {
                                 hallwayType={"billiard_ballroom"}
                                 direction={"vertical"}
                                 handleMove={handleMove}
-                                locations={locationsList}/>
+                                locations={locationsList}
+                                currLocation={currLocation}/>
 
                             <Room empty={true}/>
 
@@ -305,7 +319,8 @@ export default function Game(props) {
                                 hallwayType={"dining_kitchen"}
                                 direction={"vertical"}
                                 handleMove={handleMove}
-                                locations={locationsList}/>
+                                locations={locationsList}
+                                currLocation={currLocation}/>
                         </Grid>
                     </Grid>
 
@@ -314,29 +329,34 @@ export default function Game(props) {
                             <Room 
                                 roomType={"conservatory"} 
                                 handleMove={handleMove}
-                                locations={locationsList}/>
+                                locations={locationsList}
+                                currLocation={currLocation}/>
                             
                             <Hallway 
                                 hallwayType={"conservatory_ballroom"} 
                                 direction={"horizontal"} 
                                 handleMove={handleMove}
-                                locations={locationsList}/>
+                                locations={locationsList}
+                                currLocation={currLocation}/>
 
                             <Room 
                                 roomType={"ballroom"} 
                                 handleMove={handleMove}
-                                locations={locationsList}/>
+                                locations={locationsList}
+                                currLocation={currLocation}/>
 
                             <Hallway 
                                 hallwayType={"ballroom_kitchen"} 
                                 direction={"horizontal"} 
                                 handleMove={handleMove}
-                                locations={locationsList}/>
+                                locations={locationsList}
+                                currLocation={currLocation}/>
 
                             <Room 
                                 roomType={"kitchen"} 
                                 handleMove={handleMove}
-                                locations={locationsList}/>
+                                locations={locationsList}
+                                currLocation={currLocation}/>
                         </Grid>
                     </Grid>
 

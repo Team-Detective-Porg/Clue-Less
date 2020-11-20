@@ -11,6 +11,7 @@ const useStyles = makeStyles({
     }
 });
 
+
 export default function Hallway(props) {
     const styling = useStyles();
 
@@ -25,6 +26,21 @@ export default function Hallway(props) {
         }
     }
 
+    const isDisabled = () => {
+        var disabled = false;
+
+        // Retrieve valid moves given player's current position
+        var validMoves = jsonQuery(`data[name=${props.currLocation}].valid_moves`, {data: {data: props.locations}}).value;
+        console.log(validMoves);
+
+        // Check if the current hallway is valid
+        if (validMoves != null) {
+            disabled = validMoves.includes(props.hallwayType) ? false : true;
+        }
+        
+        return disabled;
+    }
+
     return (
         <Grid item style={{width: "125px", height: "125px"}}>
             {
@@ -33,7 +49,9 @@ export default function Hallway(props) {
                     <Grid item>
                         <Button 
                             variant="contained" 
+                            color="primary"
                             style={{width:"125px", height: "50px"}} 
+                            disabled={isDisabled()}
                             onClick={() => {props.handleMove(props.hallwayType)}}>
                             <Grid container direction="column">
                                 {getCharacters() === null ? null : 
@@ -51,7 +69,9 @@ export default function Hallway(props) {
                     <Grid item>
                         <Button 
                             variant="contained" 
+                            color="primary"
                             style={{width:"50px", height: "125px"}} 
+                            disabled={isDisabled()}
                             onClick={() => {props.handleMove(props.hallwayType)}}>
                             <Grid container direction="column" alignItems="flex-start" justify="flex-start">
                                 {getCharacters() === null ? null : 
