@@ -85,15 +85,11 @@ export default function Lobby(props) {
             </Grid>
             
             <Grid item>
-                <Link to={{pathname:"/game", state:{userName: props.location.state.userName}}}>
+                <Link to={{pathname:"/game", state:{userName: props.location.state.userName, character: props.location.state.character}}}>
                     <Button color="primary" variant="contained">
                         Start Game
                     </Button>
                 </Link>
-            </Grid>
-
-            <Grid item>
-                <h6>Do not press 'Start Game' until all players are ready. Any player can start the game.</h6>
             </Grid>
         </Grid>
     );

@@ -8,10 +8,12 @@ import Hallway from '../Hallway.js';
 import Grid from '@material-ui/core/Grid';
 import WebSocketInstance from '../channels/WebSocket.js'
 
+var jsonQuery = require("json-query");
+
 /**
  * TO DO LIST:
  * 
- * Change rendering to use locations
+ * Get current player state
  * Disable invalid moves
  * 
  */
@@ -26,8 +28,8 @@ export default function Game(props) {
 
     const [userName, setUserName] = useState(props.location.state.userName);
 
-    const [currLocation, setCurrLocation] = useState(""); // Get from websocket
-    const [nextLocation, setNextLocation] = useState(""); // Send to websocket
+    const [currLocation, setCurrLocation] = useState(""); 
+    const [nextLocation, setNextLocation] = useState("");
 
     const [playerChoice, setPlayerChoice] = useState("");
 
@@ -43,6 +45,40 @@ export default function Game(props) {
         location: ""
     });
 
+    // Initial data from server
+    useEffect(() => {
+        // set Web Socket callbacks
+        WebSocketInstance.connect();
+        addCallbacks();
+
+        // start game
+        axios
+            .get('http://localhost:8000/gamestart/1')
+            .then(response => setSession(response.data))
+            .catch(error => console.log(error));
+
+        // Get list of characters
+        axios
+            .get("http://localhost:8000/api/characters/")
+            .then(response => {
+                setCharacterList(response.data);
+                setCurrLocation(jsonQuery(`data[id=${props.location.state.character}].location`, {data: {data: response.data}}).value);
+            })
+            .catch(error => console.log(error));
+
+        // Get list of weapons
+        axios
+            .get("http://localhost:8000/api/weapons/")
+            .then(response => setWeaponList(response.data))
+            .catch(error => console.log(error));
+
+        // Get list of locations
+        axios
+            .get("http://localhost:8000/api/locations/")
+            .then(response => setLocationsList(response.data))
+            .catch(error => console.log(error));
+    }, []);
+    
     // Game WebSocket init
     function waitForSocketConnection(callback) {
         setTimeout(() => {
@@ -104,42 +140,10 @@ export default function Game(props) {
         WebSocketInstance.addCallbacks('game.message', handleIncomingData);
     }
 
-    
-    // Initial data from server
-    useEffect(() => {
-        // set Web Socket callbacks
-        WebSocketInstance.connect();
-        addCallbacks();
-        // start game
-        axios
-            .get('http://localhost:8000/gamestart/1')
-            .then(response => setSession(response.data))
-            .catch(error => console.log(error));
-
-        // Get list of characters
-        axios
-            .get("http://localhost:8000/api/characters/") //?available=True
-            .then(response => setCharacterList(response.data))
-            .catch(error => console.log(error));
-
-        // Get list of weapons
-        axios
-            .get("http://localhost:8000/api/weapons/")
-            .then(response => setWeaponList(response.data))
-            .catch(error => console.log(error));
-
-        // Get list of rooms
-        axios
-            .get("http://localhost:8000/api/locations/")
-            .then(response => setLocationsList(response.data))
-            .catch(error => console.log(error));
-    }, []);
-
     // Handlers
     const handleMove = (selectedLocation) => {
         setCurrLocation(selectedLocation);
         alert("Move " + userName + " to: " + selectedLocation);
-        //console.log("characterList: " + JSON.stringify(characterList));
         console.log("locationsList: " + JSON.stringify(locationsList));
         waitForSocketConnection(sendMove);
     }
@@ -166,8 +170,7 @@ export default function Game(props) {
                 }
             }).then(response => alert("Suggestion: " + JSON.stringify(response.data)));
             waitForSocketConnection(sendSuggestion); 
-        }
-        else {
+        } else {
             axios({
                 method: 'post',
                 url: 'http://localhost:8000/accusation/',
