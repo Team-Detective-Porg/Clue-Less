@@ -7,8 +7,7 @@
             "display_name": "Study",
             "valid_moves": [
                 "study_hall",
-                "study_library",
-                "kitchen"
+                "study_library"
             ]
         }
     },
@@ -56,8 +55,7 @@
             "display_name": "Lounge",
             "valid_moves": [
                 "hall_lounge",
-                "lounge_dining",
-                "conservatory"
+                "lounge_dining"
             ]
         }
     },
