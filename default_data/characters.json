@@ -4,7 +4,7 @@
         "model": "clue_less.character",
         "fields": {
             "name": "Mrs. White",
-            "location": "ballroom_kitchen"
+            "location": "ballroom"
         }
     },
     {
@@ -12,7 +12,7 @@
         "model": "clue_less.character",
         "fields": {
             "name": "Mrs. Peacock",
-            "location": "library_conservatory"
+            "location": "library"
         }
     },
     {
@@ -20,7 +20,7 @@
         "model": "clue_less.character",
         "fields": {
             "name": "Professor Plum",
-            "location": "study_library"
+            "location": "study"
         }
     },
     {
@@ -28,7 +28,7 @@
         "model": "clue_less.character",
         "fields": {
             "name": "Colonel Mustard",
-            "location": "lounge_dining"
+            "location": "lounge"
         }
     },
     {
@@ -36,7 +36,7 @@
         "model": "clue_less.character",
         "fields": {
             "name": "Miss Scarlett",
-            "location": "hall_lounge"
+            "location": "hall"
         }
     },
     {
@@ -44,7 +44,7 @@
         "model": "clue_less.character",
         "fields": {
             "name": "Reverend Green",
-            "location": "conservatory_ballroom"
+            "location": "conservatory"
         }
     }
 ]
