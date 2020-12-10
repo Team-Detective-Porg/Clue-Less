@@ -19,6 +19,8 @@ export default function Game(props) {
     const [locationsList, setLocationsList] = useState([]);
 
     const [userName, setUserName] = useState(props.location.state.userName);
+    const [playerId, setPlayerId] = useState(0);
+    const [playerCards, setPlayerCards] = useState({});
 
     const [currLocation, setCurrLocation] = useState(""); 
     const [nextLocation, setNextLocation] = useState("");
@@ -37,13 +39,14 @@ export default function Game(props) {
         location: ""
     });
 
+
     // Initial data from server
     useEffect(() => {
         // set Web Socket callbacks
         WebSocketInstance.connect();
         addCallbacks();
 
-        // start game
+        // Start game
         axios
             .get('http://localhost:8000/gamestart/1')
             .then(response => setSession(response.data))
@@ -68,6 +71,12 @@ export default function Game(props) {
         axios
             .get("http://localhost:8000/api/locations/")
             .then(response => setLocationsList(response.data))
+            .catch(error => console.log(error));
+
+        // Get list of player's cards
+        axios
+            .get(`http://localhost:8000/api/players/${props.location.state.character}/`)
+            .then(response => setPlayerCards(response.data))
             .catch(error => console.log(error));
     }, []);
     
@@ -435,6 +444,10 @@ export default function Game(props) {
 
                     <Grid item>
                         <Button variant="outlined" onClick={submitChoice}>Submit</Button>
+                    </Grid>
+
+                    <Grid item>
+                        {console.log(playerCards)}
                     </Grid>
                 </Grid>
             </Grid>

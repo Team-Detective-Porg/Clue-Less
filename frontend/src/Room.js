@@ -24,7 +24,6 @@ export default function Room(props) {
 
         // Retrieve valid moves given player's current position
         var validMoves = jsonQuery(`data[name=${props.currLocation}].valid_moves`, {data: {data: props.locations}}).value;
-        console.log(validMoves);
 
         // Check if the current hallway is valid
         if (validMoves != null) {
@@ -32,10 +31,6 @@ export default function Room(props) {
         }
         
         return disabled;
-    }
-
-    const isSecretPassageDisabled = () => {
-        // Disable when not in current room, props.currLocation != props.roomType
     }
 
     return (
@@ -54,7 +49,7 @@ export default function Room(props) {
                         
                         {getCharacters() === null ? null : 
                             getCharacters().map(char => 
-                                <Grid item>
+                                <Grid key={char.name} item>
                                     {char.name}
                                 </Grid>
                         )}

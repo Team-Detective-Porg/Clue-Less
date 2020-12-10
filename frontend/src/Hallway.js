@@ -31,7 +31,6 @@ export default function Hallway(props) {
 
         // Retrieve valid moves given player's current position
         var validMoves = jsonQuery(`data[name=${props.currLocation}].valid_moves`, {data: {data: props.locations}}).value;
-        console.log(validMoves);
 
         // Check if the current hallway is valid
         if (validMoves != null) {
