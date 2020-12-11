@@ -47,7 +47,7 @@ export default function Game(props) {
 
         // Start game
         axios
-            .get('http://localhost:8000/gamestart/7')
+            .get('http://localhost:8000/gamestart/1')
             .then(response => setSession(response.data))
             .catch(error => console.log(error));
 

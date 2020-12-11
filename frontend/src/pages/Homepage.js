@@ -33,7 +33,7 @@ export default function Homepage(props) {
             data: {
                 user_character: jsonQuery(`characterData[name=${userSelections.character}].id`, {data: {characterData}}).value,
                 active: true,
-                game_session: 7,
+                game_session: 1,
                 user_name: userSelections.userName
             }
         });
