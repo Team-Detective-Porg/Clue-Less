@@ -49,6 +49,7 @@ class PlayerSerializer(serializers.ModelSerializer):
     class Meta:
         model = Player
         fields = (
+            "id",
             "active",
             "characterList",
             "game_session",
