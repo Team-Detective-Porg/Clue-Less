@@ -202,6 +202,16 @@ class PlayerView(viewsets.ModelViewSet):
     serializer_class = PlayerSerializer
     queryset = Player.objects.all()
 
+    def get_queryset(self):
+        """ allow rest api to filter by name """
+        queryset = Player.objects.all()
+        user_character = self.request.query_params.get("user_character", None)
+        if user_character is not None:
+            # TODO Adjust to filter on game sessions.
+            queryset = queryset.filter(user_character=user_character)
+
+        return queryset
+
 
 class SessionView(viewsets.ModelViewSet):
     serializer_class = SessionSerializer
