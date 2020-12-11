@@ -74,7 +74,7 @@ export default function Game(props) {
 
         // Get list of player's cards
         axios
-            .get(`http://localhost:8000/api/players/?user_character=${props.location.state.character}/`)
+            .get(`http://localhost:8000/api/players/?user_character=${props.location.state.character}`)
             .then(response => setPlayerCards(response.data))
             .catch(error => console.log(error));
     }, []);
@@ -446,6 +446,7 @@ export default function Game(props) {
                     </Grid>
 
                     <Grid item>
+                        Your Cards:
                         {console.log(playerCards)}
                     </Grid>
                 </Grid>

@@ -73,7 +73,7 @@ export default function Homepage(props) {
             </Grid>
 
             <Grid item>
-                <Link to={{pathname: "/lobby", state: {character: userSelections.character, userName: userSelections.userName, character: jsonQuery(`characterData[name=${userSelections.character}].id`, {data: {characterData}}).value}}}>
+                <Link to={{pathname: "/lobby", state: {userName: userSelections.userName, character: jsonQuery(`characterData[name=${userSelections.character}].id`, {data: {characterData}}).value}}}>
                     <Button color="primary" variant="contained" onClick={handleSubmit}>
                         Submit
                     </Button>
