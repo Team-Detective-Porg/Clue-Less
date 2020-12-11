@@ -19,7 +19,6 @@ export default function Game(props) {
     const [locationsList, setLocationsList] = useState([]);
 
     const [userName, setUserName] = useState(props.location.state.userName);
-    const [playerId, setPlayerId] = useState(0);
     const [playerCards, setPlayerCards] = useState({});
 
     const [currLocation, setCurrLocation] = useState(""); 
@@ -48,7 +47,7 @@ export default function Game(props) {
 
         // Start game
         axios
-            .get('http://localhost:8000/gamestart/1')
+            .get('http://localhost:8000/gamestart/7')
             .then(response => setSession(response.data))
             .catch(error => console.log(error));
 
@@ -75,7 +74,7 @@ export default function Game(props) {
 
         // Get list of player's cards
         axios
-            .get(`http://localhost:8000/api/players/${props.location.state.character}/`)
+            .get(`http://localhost:8000/api/players/?user_character=${props.location.state.character}/`)
             .then(response => setPlayerCards(response.data))
             .catch(error => console.log(error));
     }, []);
