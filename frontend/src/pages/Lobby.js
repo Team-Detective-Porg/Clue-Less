@@ -36,7 +36,6 @@ export default function Lobby(props) {
 
     function sendMessage() {
         var data = props.location.state;
-        console.log(data);
         try {
             WebSocketInstance.sendMessage(data);
         }
@@ -46,7 +45,6 @@ export default function Lobby(props) {
     }
 
     function handleIncomingData(data){
-        console.log(data.player_list);
         setUserSelections(data.player_list);
     }
 

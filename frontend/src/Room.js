@@ -64,7 +64,7 @@ export default function Room(props) {
                         color="secondary"
                         className={styling.root}
                         style={{zIndex:20, padding:"0px", width: "25px", height: "25px", marginTop: "-60px", marginLeft: "95px"}} 
-                        disabled={props.currLocation != props.roomType}
+                        disabled={props.currLocation !== props.roomType}
                         onClick={() => props.handleMove("kitchen")}
                     >
                         &#8600;
@@ -78,7 +78,7 @@ export default function Room(props) {
                         color="secondary"
                         className={styling.root}
                         style={{zIndex:20, padding:"0px", width: "25px", height: "25px", marginTop: "-60px", marginLeft: "5px"}} 
-                        disabled={props.currLocation != props.roomType}
+                        disabled={props.currLocation !== props.roomType}
                         onClick={() => props.handleMove("conservatory")}
                     >
                         &#8601;
@@ -92,7 +92,7 @@ export default function Room(props) {
                         color="secondary"
                         className={styling.root}
                         style={{zIndex:20, padding:"0px", width: "25px", height: "25px", marginTop: "-240px", marginLeft: "95px"}} 
-                        disabled={props.currLocation != props.roomType}
+                        disabled={props.currLocation !== props.roomType}
                         onClick={() => props.handleMove("lounge")}
                     >
                         &#8599;
@@ -106,7 +106,7 @@ export default function Room(props) {
                         color="secondary"
                         className={styling.root}
                         style={{zIndex:20, padding:"0px", width: "25px", height: "25px", marginTop: "-240px", marginLeft: "5px"}} 
-                        disabled={props.currLocation != props.roomType}
+                        disabled={props.currLocation !== props.roomType}
                         onClick={() => props.handleMove("study")}
                     >
                         &#8598;

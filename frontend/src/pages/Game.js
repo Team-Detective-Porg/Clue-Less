@@ -12,20 +12,19 @@ var jsonQuery = require("json-query");
 
 export default function Game(props) {
 
-    // Global variables and state
+    // Dropdown data
     const [session, setSession] = useState();
     const [characterList, setCharacterList] = useState([]);
     const [weaponList, setWeaponList] = useState([]);
     const [locationsList, setLocationsList] = useState([]);
 
+    // Player Data
     const [userName, setUserName] = useState(props.location.state.userName);
     const [playerCards, setPlayerCards] = useState({});
-
-    const [currLocation, setCurrLocation] = useState(""); 
-    const [nextLocation, setNextLocation] = useState("");
-
     const [playerChoice, setPlayerChoice] = useState("");
+    const [currLocation, setCurrLocation] = useState(""); 
 
+    // Player Moves
     const [suggestion, setSuggestion] = useState({
         character: 0,
         weapon: 0,
@@ -75,7 +74,7 @@ export default function Game(props) {
         // Get list of player's cards
         axios
             .get(`http://localhost:8000/api/players/?user_character=${props.location.state.character}`)
-            .then(response => setPlayerCards(response.data))
+            .then(response => setPlayerCards(response.data[0]))
             .catch(error => console.log(error));
     }, []);
     
@@ -446,8 +445,11 @@ export default function Game(props) {
                     </Grid>
 
                     <Grid item>
-                        Your Cards:
                         {console.log(playerCards)}
+                        Your Cards: 
+                        Characters: {JSON.stringify(playerCards)}
+                        Rooms:
+                        Weapons:
                     </Grid>
                 </Grid>
             </Grid>
