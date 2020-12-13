@@ -154,11 +154,9 @@ export default function Game(props) {
     function handleIncomingData(data){
         console.log('Incoming data to Game.js: ' + JSON.stringify(data));
         if (data['move_type'] === 'notification') {
-            var msg = data['text'];
-            setHistory([...history, msg])
-            // const list = history;
-            // list.push(data['text'])
-            // setHistory(list)
+            const list = history;
+            list.push(data['text'])
+            setHistory(list)
         }
     }
 
