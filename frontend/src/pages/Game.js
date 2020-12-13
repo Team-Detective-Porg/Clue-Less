@@ -144,8 +144,8 @@ export default function Game(props) {
         setCurrLocation(selectedLocation);
         alert("Move " + props.location.state.userName + " to: " + selectedLocation);
 
-        axios.put(`http://localhost:8000/api/characters/${props.location.state.character}/`, 
-                    {location: selectedLocation})
+        axios.patch(`http://localhost:8000/api/characters/${props.location.state.character}/`, {location: selectedLocation})
+             .catch(err => console.log(err))
 
         waitForSocketConnection(sendMove);
     }
