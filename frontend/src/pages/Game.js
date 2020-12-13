@@ -146,7 +146,10 @@ export default function Game(props) {
     const handleMove = (selectedLocation) => {
         setCurrLocation(selectedLocation);
         alert("Move " + userName + " to: " + selectedLocation);
-        console.log("locationsList: " + JSON.stringify(locationsList));
+
+        axios.put(`http://localhost:8000/api/characters/${props.location.state.character}/`, 
+                    {location: selectedLocation})
+
         waitForSocketConnection(sendMove);
     }
 
