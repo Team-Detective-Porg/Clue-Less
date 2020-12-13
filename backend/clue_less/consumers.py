@@ -74,30 +74,22 @@ class GameConsumer(JsonWebsocketConsumer):
         """
         
         text_data_json = json.loads(text_data)
-        logger.info(text_data_json)
-
         move_type = text_data_json['move_type']
+        logger.info('receive %s', move_type)
         #if (move_type == 'move'):
         #    data = text_data_json['location']
         #elif (move_type == 'suggestion'):
         #    data = text_data_json['suggestion']
-        
+
         async_to_sync(self.channel_layer.group_send)(
-            "game",
-            {
-                'type': 'game.message',
-                'content': text_data_json,
-            },
+            "game", text_data_json,
         )
 
     def game_message(self, event):
         """
         Receive a broadcast message and send it over a websocket
         """
-        logger.info(event)
+        logger.info('game_message')
 
         # Send message to WebSocket
-        self.send(text_data=json.dumps({
-            'type': 'game.message',
-            'data': event
-        }))
+        self.send(text_data=json.dumps(event))

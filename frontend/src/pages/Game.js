@@ -19,7 +19,7 @@ export default function Game(props) {
     const [locationsList, setLocationsList] = useState([]);
 
     // Game History
-    const [history, setHistory] = useState(["Player A moved to A.", "Player B moved to B."]);
+    const [history, setHistory] = useState(['Game started!']);
 
     // Player Data
     const [playerCards, setPlayerCards] = useState({});
@@ -91,9 +91,11 @@ export default function Game(props) {
 
     function sendMove() {
         const data = {
+            'type': 'game.message',
             'move_type': 'move',
             'user_name': props.location.state.userName,
-            'location': currLocation
+            'location': props.location.state.currLocation,
+            'locationsList': locationsList
         }
         try {
             WebSocketInstance.sendMessage(data);
@@ -101,10 +103,12 @@ export default function Game(props) {
         catch(err) {
             console.log(err.message);
         }  
+        sendNotification(props.location.state.userName + ' moved to ' + currLocation)
     }
 
     function sendSuggestion() {
         const data = {
+            'type': 'game.message',
             'move_type': 'suggestion',
             'user_name': props.location.state.userName,
             'suggestion': suggestion
@@ -115,10 +119,12 @@ export default function Game(props) {
         catch(err) {
             console.log(err.message);
         }  
+        sendNotification(props.location.state.userName + ' made a suggestion: ' + suggestion)
     }
 
     function sendAccusation() {
         const data = {
+            'type': 'game.message',
             'move_type': 'accusation',
             'user_name': props.location.state.userName,
             'accusation': accusation
@@ -130,9 +136,28 @@ export default function Game(props) {
             console.log(err.message);
         }  
     }
+    
+    function sendNotification(text) {
+        const data = {
+            'type': 'game.message',
+            'move_type': 'notification',
+            'text': text
+        }
+        try {
+            WebSocketInstance.sendMessage(data);
+        }
+        catch(err) {
+            console.log(err.message);
+        }  
+    }
 
     function handleIncomingData(data){
-        console.log('Incoming data to Game.js: ' + data);
+        console.log('Incoming data to Game.js: ' + JSON.stringify(data));
+        if (data['move_type'] === 'notification') {
+            const list = history;
+            list.push(data['text'])
+            setHistory(list)
+        }
     }
 
     function addCallbacks() {
@@ -142,7 +167,7 @@ export default function Game(props) {
     // Handlers
     const handleMove = (selectedLocation) => {
         setCurrLocation(selectedLocation);
-        alert("Move " + props.location.state.userName + " to: " + selectedLocation);
+        // alert("Move " + props.location.state.userName + " to: " + selectedLocation);
 
         axios.patch(`http://localhost:8000/api/characters/${props.location.state.character}/`, {location: selectedLocation})
              .catch(err => console.log(err))
