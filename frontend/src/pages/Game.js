@@ -14,7 +14,6 @@ var jsonQuery = require("json-query");
 export default function Game(props) {
 
     // Dropdown data
-    const [session, setSession] = useState();
     const [characterList, setCharacterList] = useState([]);
     const [weaponList, setWeaponList] = useState([]);
     const [locationsList, setLocationsList] = useState([]);
@@ -23,7 +22,6 @@ export default function Game(props) {
     const [history, setHistory] = useState(["Player A moved to A.", "Player B moved to B."]);
 
     // Player Data
-    const [userName, setUserName] = useState(props.location.state.userName);
     const [playerCards, setPlayerCards] = useState({});
     const [playerChoice, setPlayerChoice] = useState("");
     const [currLocation, setCurrLocation] = useState(""); 
@@ -50,11 +48,10 @@ export default function Game(props) {
         // Start game and get player's cards
         const startGame = async () => {
             await axios.get('http://localhost:8000/gamestart/1')
-                       .then(response => {setSession(response.data)})
                        .catch(error => console.log(error));
 
             await axios.get(`http://localhost:8000/api/players/?user_character=${props.location.state.character}`)
-                       .then(response => {setPlayerCards(response.data[0]); console.log(response.data[0])})
+                       .then(response => setPlayerCards(response.data[0]))
                        .catch(error => console.log(error));
         }
         startGame();
@@ -95,7 +92,7 @@ export default function Game(props) {
     function sendMove() {
         const data = {
             'move_type': 'move',
-            'user_name': userName,
+            'user_name': props.location.state.userName,
             'location': currLocation
         }
         try {
@@ -109,7 +106,7 @@ export default function Game(props) {
     function sendSuggestion() {
         const data = {
             'move_type': 'suggestion',
-            'user_name': userName,
+            'user_name': props.location.state.userName,
             'suggestion': suggestion
         }
         try {
@@ -123,7 +120,7 @@ export default function Game(props) {
     function sendAccusation() {
         const data = {
             'move_type': 'accusation',
-            'user_name': userName,
+            'user_name': props.location.state.userName,
             'accusation': accusation
         }
         try {
@@ -145,7 +142,7 @@ export default function Game(props) {
     // Handlers
     const handleMove = (selectedLocation) => {
         setCurrLocation(selectedLocation);
-        alert("Move " + userName + " to: " + selectedLocation);
+        alert("Move " + props.location.state.userName + " to: " + selectedLocation);
 
         axios.put(`http://localhost:8000/api/characters/${props.location.state.character}/`, 
                     {location: selectedLocation})
@@ -168,7 +165,7 @@ export default function Game(props) {
                 url: 'http://localhost:8000/suggestion/',
                 data: {
                     session_id: 1,
-                    player: userName,
+                    player: props.location.state.userName,
                     character: suggestion.character,
                     weapon: suggestion.weapon,
                     location: suggestion.location,
@@ -181,7 +178,7 @@ export default function Game(props) {
                 url: 'http://localhost:8000/accusation/',
                 data: {
                     session_id: 1,
-                    player: userName,
+                    player: props.location.state.userName,
                     character: accusation.character,
                     weapon: accusation.weapon,
                     location: accusation.location,
@@ -190,7 +187,6 @@ export default function Game(props) {
             waitForSocketConnection(sendAccusation); 
         }
     }
-
 
     return (
         <Grid container spacing={3}>
@@ -439,6 +435,8 @@ export default function Game(props) {
                                 {locationsList.map((loc) => {
                                     if (loc.is_card === true) {
                                         return (<MenuItem key={loc.name} value={loc.name}>{loc.display_name}</MenuItem>)
+                                    } else {
+                                        return null
                                     }
                                 })}
                             </TextField>
