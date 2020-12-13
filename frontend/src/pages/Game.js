@@ -37,18 +37,23 @@ export default function Game(props) {
         location: ""
     });
 
-
     // Initial data from server
     useEffect(() => {
         // set Web Socket callbacks
         WebSocketInstance.connect();
         addCallbacks();
 
-        // Start game
-        axios
-            .get('http://localhost:8000/gamestart/1')
-            .then(response => {setSession(response.data); setTimeout(() => console.log("Timeout started"), 5000)})
-            .catch(error => console.log(error))
+        // Start game and get player's cards
+        const startGame = async () => {
+            await axios.get('http://localhost:8000/gamestart/1')
+                       .then(response => {setSession(response.data)})
+                       .catch(error => console.log(error));
+
+            await axios.get(`http://localhost:8000/api/players/?user_character=${props.location.state.character}`)
+                       .then(response => {setPlayerCards(response.data[0]); console.log(response.data[0])})
+                       .catch(error => console.log(error));
+        }
+        startGame();
 
         // Get list of characters
         axios
@@ -69,12 +74,6 @@ export default function Game(props) {
         axios
             .get("http://localhost:8000/api/locations/")
             .then(response => setLocationsList(response.data))
-            .catch(error => console.log(error));
-
-        // Get list of player's cards
-        axios
-            .get(`http://localhost:8000/api/players/?user_character=${props.location.state.character}`)
-            .then(response => setPlayerCards(response.data[0]))
             .catch(error => console.log(error));
     }, []);
     
@@ -187,7 +186,7 @@ export default function Game(props) {
 
 
     return (
-        <Grid container spacing={3}>
+        <Grid container spacing={2}>
             <Grid item xs={12}>
                 <h3>Clue-Less</h3>
             </Grid>
@@ -359,7 +358,6 @@ export default function Game(props) {
                                 currLocation={currLocation}/>
                         </Grid>
                     </Grid>
-
                 </Grid>
             </Grid>
 
@@ -446,14 +444,24 @@ export default function Game(props) {
 
                     <Grid item>
                         {console.log(playerCards)}
-                        Your Cards: 
-                        Characters: {Object.keys(playerCards).length === 0 || playerCards.characterList.length === 0 ? null : JSON.stringify(playerCards.characterList.map(item => item.name))}
-                        Rooms: {Object.keys(playerCards).length === 0 || playerCards.roomList.length === 0 ? null : JSON.stringify(playerCards.roomList.map(item => item.name))}
-                        Weapons: {Object.keys(playerCards).length === 0 || playerCards.weaponList.length === 0 ? null : JSON.stringify(playerCards.weaponList.map(item => item.name))}
+                        <b>Your Cards: </b>
+
+                        <Grid container direction="column" spacing={1} alignItems="flex-start">
+                            <Grid item>
+                                <b>Characters:</b> {Object.keys(playerCards).length === 0 || playerCards.characterList.length === 0 ? "[ ]" : JSON.stringify(playerCards.characterList.map(item => item.name))}
+                            </Grid>
+
+                            <Grid item>
+                                <b>Rooms:</b> {Object.keys(playerCards).length === 0 || playerCards.roomList.length === 0 ? "[ ]" : JSON.stringify(playerCards.roomList.map(item => item.name))}
+                            </Grid>
+
+                            <Grid item>
+                                <b>Weapons:</b> {Object.keys(playerCards).length === 0 || playerCards.weaponList.length === 0 ? "[ ]" : JSON.stringify(playerCards.weaponList.map(item => item.name))}
+                            </Grid>
+                        </Grid>
                     </Grid>
                 </Grid>
             </Grid>
-
         </Grid>
     );
 }
