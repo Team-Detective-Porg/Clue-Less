@@ -47,8 +47,8 @@ export default function Game(props) {
         // Start game
         axios
             .get('http://localhost:8000/gamestart/1')
-            .then(response => setSession(response.data))
-            .catch(error => console.log(error));
+            .then(response => {setSession(response.data); setTimeout(() => console.log("Timeout started"), 5000)})
+            .catch(error => console.log(error))
 
         // Get list of characters
         axios
@@ -447,9 +447,9 @@ export default function Game(props) {
                     <Grid item>
                         {console.log(playerCards)}
                         Your Cards: 
-                        Characters: {JSON.stringify(playerCards)}
-                        Rooms:
-                        Weapons:
+                        Characters: {Object.keys(playerCards).length === 0 || playerCards.characterList.length === 0 ? null : JSON.stringify(playerCards.characterList.map(item => item.name))}
+                        Rooms: {Object.keys(playerCards).length === 0 || playerCards.roomList.length === 0 ? null : JSON.stringify(playerCards.roomList.map(item => item.name))}
+                        Weapons: {Object.keys(playerCards).length === 0 || playerCards.weaponList.length === 0 ? null : JSON.stringify(playerCards.weaponList.map(item => item.name))}
                     </Grid>
                 </Grid>
             </Grid>
