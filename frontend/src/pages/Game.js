@@ -154,9 +154,11 @@ export default function Game(props) {
     function handleIncomingData(data){
         console.log('Incoming data to Game.js: ' + JSON.stringify(data));
         if (data['move_type'] === 'notification') {
-            const list = history;
-            list.push(data['text'])
-            setHistory(list)
+            var msg = data['text'];
+            setHistory([...history, msg])
+            // const list = history;
+            // list.push(data['text'])
+            // setHistory(list)
         }
     }
 
@@ -167,7 +169,6 @@ export default function Game(props) {
     // Handlers
     const handleMove = (selectedLocation) => {
         setCurrLocation(selectedLocation);
-        // alert("Move " + props.location.state.userName + " to: " + selectedLocation);
 
         axios.patch(`http://localhost:8000/api/characters/${props.location.state.character}/`, {location: selectedLocation})
              .catch(err => console.log(err))

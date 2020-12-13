@@ -46,7 +46,7 @@ export default function Hallway(props) {
                             <Grid container direction="column">
                                 {getCharacters() === null ? null : 
                                     getCharacters().map(char => 
-                                        <Grid item>
+                                        <Grid item key={char.name}>
                                             {char.name}
                                         </Grid>
                                 )}
@@ -66,7 +66,7 @@ export default function Hallway(props) {
                             <Grid container direction="column" alignItems="flex-start" justify="flex-start">
                                 {getCharacters() === null ? null : 
                                     getCharacters().map(char => 
-                                        <Grid item>
+                                        <Grid item key={char.name}>
                                             {char.name}
                                         </Grid>
                                 )}
