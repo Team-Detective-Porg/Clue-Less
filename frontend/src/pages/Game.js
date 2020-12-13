@@ -3,10 +3,11 @@ import axios from 'axios';
 import TextField from '@material-ui/core/TextField';
 import MenuItem from '@material-ui/core/MenuItem';
 import Button from '@material-ui/core/Button';
-import Room from '../Room.js';
-import Hallway from '../Hallway.js';
 import Grid from '@material-ui/core/Grid';
 import WebSocketInstance from '../channels/WebSocket.js'
+import Room from '../Room.js';
+import Hallway from '../Hallway.js';
+import History from '../History.js'
 
 var jsonQuery = require("json-query");
 
@@ -17,6 +18,9 @@ export default function Game(props) {
     const [characterList, setCharacterList] = useState([]);
     const [weaponList, setWeaponList] = useState([]);
     const [locationsList, setLocationsList] = useState([]);
+
+    // Game History
+    const [history, setHistory] = useState(["Player A moved to A.", "Player B moved to B."]);
 
     // Player Data
     const [userName, setUserName] = useState(props.location.state.userName);
@@ -186,7 +190,7 @@ export default function Game(props) {
 
 
     return (
-        <Grid container spacing={2}>
+        <Grid container spacing={3}>
             <Grid item xs={12}>
                 <h3>Clue-Less</h3>
             </Grid>
@@ -443,7 +447,6 @@ export default function Game(props) {
                     </Grid>
 
                     <Grid item>
-                        {console.log(playerCards)}
                         <b>Your Cards: </b>
 
                         <Grid container direction="column" spacing={1} alignItems="flex-start">
@@ -461,6 +464,11 @@ export default function Game(props) {
                         </Grid>
                     </Grid>
                 </Grid>
+            </Grid>
+        
+            <Grid item xs={12}>
+                <h4>Game Status Updates:</h4>
+                <History history = {history}/>
             </Grid>
         </Grid>
     );
