@@ -101,9 +101,15 @@ def suggestion(request):
     body_unicode = request.body.decode("utf-8")
     body = json.loads(body_unicode)
 
-    suggested_character = Character.objects.filter(pk=body["character"]).first()
-    suggested_weapon = Weapon.objects.filter(pk=body["weapon"]).first()
     suggested_location = Location.objects.filter(pk=body["location"]).first()
+
+    suggested_character = Character.objects.filter(pk=body["character"]).first()
+    suggested_character.location = suggested_location
+    suggested_character.save()
+
+    suggested_weapon = Weapon.objects.filter(pk=body["weapon"]).first()
+    suggested_weapon.location = suggested_location
+    suggested_character.save()
 
     # Orders the players to start with the suggesting player.
     players = list(Player.objects.filter(game_session=body["session_id"]))
@@ -144,9 +150,15 @@ def accusation(request):
     body_unicode = request.body.decode("utf-8")
     body = json.loads(body_unicode)
 
-    suggested_character = Character.objects.filter(pk=body["character"]).first()
-    suggested_weapon = Weapon.objects.filter(pk=body["weapon"]).first()
     suggested_location = Location.objects.filter(pk=body["location"]).first()
+
+    suggested_character = Character.objects.filter(pk=body["character"]).first()
+    suggested_character.location = suggested_location
+    suggested_character.save()
+
+    suggested_weapon = Weapon.objects.filter(pk=body["weapon"]).first()
+    suggested_weapon.location = suggested_location
+    suggested_character.save()
 
     session = Session.objects.filter(pk=body["session_id"]).first()
 
