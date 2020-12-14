@@ -89,7 +89,29 @@ class GameConsumer(JsonWebsocketConsumer):
         """
         Receive a broadcast message and send it over a websocket
         """
-        logger.info('game_message')
+        move = LocationSerializer(list(Location.objects.all()), many=True)
+        move_type = event['move_type']
+        logger.info('game_message ' + move_type)
 
         # Send message to WebSocket
-        self.send(text_data=json.dumps(event))
+        if (move_type == 'move'):
+            self.send(text_data=json.dumps({
+                'type': 'game.message',
+                'move_type': 'move',
+                'locations_list': move.data
+            }))
+        elif (move_type == 'notification'):
+            move = event['move']
+            if (move == 'move'):
+                moved_to = Character.objects.get(id = event['character'])
+                self.send(text_data=json.dumps({
+                    'type': 'game.message',
+                    'move_type': 'notification',
+                    'text': event['user_name'] + ' moved to ' + moved_to.location.name
+                }))
+            elif (move == 'suggestion'):
+                self.send(text_data=json.dumps(event))
+            else:
+                self.send(text_data=json.dumps(event))
+        else:
+            self.send(text_data=json.dumps(event))

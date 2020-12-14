@@ -8,6 +8,7 @@ import WebSocketInstance from '../channels/WebSocket.js'
 import Room from '../Room.js';
 import Hallway from '../Hallway.js';
 import History from '../History.js'
+import JsonQuery from 'json-query';
 
 var jsonQuery = require("json-query");
 
@@ -93,9 +94,7 @@ export default function Game(props) {
         const data = {
             'type': 'game.message',
             'move_type': 'move',
-            'user_name': props.location.state.userName,
-            'location': props.location.state.currLocation,
-            'locationsList': locationsList
+            'user_name': props.location.state.userName
         }
         try {
             WebSocketInstance.sendMessage(data);
@@ -103,7 +102,6 @@ export default function Game(props) {
         catch(err) {
             console.log(err.message);
         }  
-        sendNotification(props.location.state.userName + ' moved to ' + currLocation)
     }
 
     function sendSuggestion() {
@@ -119,7 +117,7 @@ export default function Game(props) {
         catch(err) {
             console.log(err.message);
         }  
-        sendNotification(props.location.state.userName + ' made a suggestion: ' + suggestion)
+        sendNotification(props.location.state.userName, 'suggestion', props.location.state.character)
     }
 
     function sendAccusation() {
@@ -137,11 +135,13 @@ export default function Game(props) {
         }  
     }
     
-    function sendNotification(text) {
+    function sendNotification(user, move, character) {
         const data = {
             'type': 'game.message',
             'move_type': 'notification',
-            'text': text
+            'user_name': user,
+            'move': move,
+            'character': character
         }
         try {
             WebSocketInstance.sendMessage(data);
@@ -152,11 +152,16 @@ export default function Game(props) {
     }
 
     function handleIncomingData(data){
-        console.log('Incoming data to Game.js: ' + JSON.stringify(data));
+        // console.log('Incoming data to Game.js: ' + JSON.stringify(data));
         if (data['move_type'] === 'notification') {
             const list = history;
             list.push(data['text'])
             setHistory(list)
+        }
+        else if (data['move_type'] === 'move') {
+            console.log(data['locations_list'])
+            setLocationsList(data['locations_list'])
+            sendNotification(props.location.state.userName, 'move', props.location.state.character)
         }
     }
 
@@ -166,8 +171,7 @@ export default function Game(props) {
 
     // Handlers
     const handleMove = (selectedLocation) => {
-        setCurrLocation(selectedLocation);
-        // alert("Move " + props.location.state.userName + " to: " + selectedLocation);
+        setCurrLocation(selectedLocation)
 
         axios.patch(`http://localhost:8000/api/characters/${props.location.state.character}/`, {location: selectedLocation})
              .catch(err => console.log(err))
