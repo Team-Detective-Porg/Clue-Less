@@ -171,7 +171,7 @@ export default function Game(props) {
 
     // Handlers
     const handleMove = (selectedLocation) => {
-        setCurrLocation(selectedLocation)
+        setCurrLocation(selectedLocation);
 
         axios.patch(`http://localhost:8000/api/characters/${props.location.state.character}/`, {location: selectedLocation})
              .catch(err => console.log(err))
