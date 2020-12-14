@@ -110,7 +110,18 @@ class GameConsumer(JsonWebsocketConsumer):
                     'text': event['user_name'] + ' moved to ' + moved_to.location.name
                 }))
             elif (move == 'suggestion'):
-                self.send(text_data=json.dumps(event))
+                self.send(text_data=json.dumps({
+                    'type': 'game.message',
+                    'move_type': 'notification',
+                    'text': event['user_name'] + ' made a suggestion'
+                }))
+            elif (move == 'accusation'):
+                if (event['response_data']):
+                    self.send(text_data=json.dumps({
+                        'type': 'game.message',
+                        'move_type': 'notification',
+                        'text': event['user_name'] + ' won the game!'
+                    }))
             else:
                 self.send(text_data=json.dumps(event))
         else:

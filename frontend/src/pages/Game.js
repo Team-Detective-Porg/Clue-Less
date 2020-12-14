@@ -135,13 +135,24 @@ export default function Game(props) {
         }  
     }
     
-    function sendNotification(user, move, character) {
-        const data = {
-            'type': 'game.message',
-            'move_type': 'notification',
-            'user_name': user,
-            'move': move,
-            'character': character
+    function sendNotification(user, move, other) {
+        let data;
+        if (move === 'move') {
+            data = {
+                'type': 'game.message',
+                'move_type': 'notification',
+                'user_name': user,
+                'move': move,
+                'character': other
+            }
+        } else {
+            data = {
+                'type': 'game.message',
+                'move_type': 'notification',
+                'user_name': user,
+                'move': move,
+                'response_data': other
+            }
         }
         try {
             WebSocketInstance.sendMessage(data);
@@ -199,7 +210,7 @@ export default function Game(props) {
                     weapon: suggestion.weapon,
                     location: suggestion.location,
                 }
-            }).then(response => alert("Suggestion: " + JSON.stringify(response.data)));
+            }).then(response => sendNotification(props.location.state.userName, 'suggestion', response.data));
             waitForSocketConnection(sendSuggestion); 
         } else {
             axios({
@@ -212,7 +223,7 @@ export default function Game(props) {
                     weapon: accusation.weapon,
                     location: accusation.location,
                 }
-            }).then(response => alert("Accusation: " + JSON.stringify(response.data)));
+            }).then(response => sendNotification(props.location.state.userName, 'accusation', response.data));
             waitForSocketConnection(sendAccusation); 
         }
     }
