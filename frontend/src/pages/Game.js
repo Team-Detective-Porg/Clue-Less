@@ -167,7 +167,7 @@ export default function Game(props) {
         if (data['move_type'] === 'notification') {
             const list = history;
             list.push(data['text'])
-            setHistory(list)
+            setHistory([...list])
         }
         else if (data['move_type'] === 'move') {
             console.log(data['locations_list'])
