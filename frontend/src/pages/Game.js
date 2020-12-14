@@ -146,6 +146,7 @@ export default function Game(props) {
                 'character': other
             }
         } else {
+            alert(move + ': ' + JSON.stringify(other))
             data = {
                 'type': 'game.message',
                 'move_type': 'notification',

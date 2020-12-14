@@ -94,10 +94,10 @@ class GameConsumer(JsonWebsocketConsumer):
         logger.info('game_message ' + move_type)
 
         # Send message to WebSocket
-        if (move_type == 'move'):
+        if (move_type == 'move' or move_type == 'suggestion'):
             self.send(text_data=json.dumps({
                 'type': 'game.message',
-                'move_type': 'move',
+                'move_type': move_type,
                 'locations_list': move.data
             }))
         elif (move_type == 'notification'):
@@ -116,7 +116,8 @@ class GameConsumer(JsonWebsocketConsumer):
                     'text': event['user_name'] + ' made a suggestion'
                 }))
             elif (move == 'accusation'):
-                if (event['response_data']):
+                response_data = event['response_data']
+                if (response_data['correct']):
                     self.send(text_data=json.dumps({
                         'type': 'game.message',
                         'move_type': 'notification',
