@@ -229,6 +229,11 @@ export default function Game(props) {
         }
     }
 
+    const endTurn = () => {
+        axios.get('http://localhost:8000/endturn/1')
+             .catch(error => console.log(error));
+    }
+
     return (
         <Grid container spacing={3}>
             <Grid item xs={12}>
@@ -504,6 +509,10 @@ export default function Game(props) {
                                 <b>Weapons:</b> {Object.keys(playerCards).length === 0 || playerCards.weaponList.length === 0 ? "[ ]" : JSON.stringify(playerCards.weaponList.map(item => item.name))}
                             </Grid>
                         </Grid>
+                    </Grid>
+                
+                    <Grid item>
+                        <Button variant="outlined" onClick={endTurn}>End Turn</Button>
                     </Grid>
                 </Grid>
             </Grid>
