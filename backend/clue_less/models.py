@@ -70,6 +70,8 @@ class Session(models.Model):
     weapon = models.ForeignKey(
         "Weapon", on_delete=models.SET_NULL, blank=True, null=True
     )
+    player_order = models.JSONField(null=True)
+    next_player = models.IntegerField(default=0)
 
 
 class Weapon(models.Model):

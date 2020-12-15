@@ -29,6 +29,7 @@ router.register(r"weapons", views.WeaponView, "weapon")
 urlpatterns = [
     path("admin/", admin.site.urls),
     path("api/", include(router.urls)),
+    path("endturn/<int:session_id>/", views.end_turn),
     path("gamestart/<int:session_id>/", views.start_game),
     path("suggestion/", views.suggestion),
     path("accusation/", views.accusation),

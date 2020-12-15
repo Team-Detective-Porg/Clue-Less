@@ -13,6 +13,10 @@ from .serializers import (
 from .models import Character, Player, Location, Session, Weapon
 
 from django.shortcuts import render
+import logging
+
+logging.basicConfig(level=logging.INFO)
+logger = logging.getLogger(__name__)
 
 
 def start_game(request, session_id):
@@ -20,8 +24,17 @@ def start_game(request, session_id):
     session = Session.objects.get(pk=session_id)
     players = Player.objects.filter(game_session=session_id).order_by("?")
 
+    if players.count() == 0:
+        data = {
+            "success": False,
+            "session_id": session_id,
+            "message": "No players for game",
+        }
+        return JsonResponse(data)
+
     # Set winning character then assign remainder to players.
     session.character = Character.objects.order_by("?").first()
+    logger.info("Choosing Winning Character")
 
     while (
         Character.objects.exclude(pk=session.character.pk)
@@ -44,6 +57,7 @@ def start_game(request, session_id):
 
     # Set winning weapon then assign remainder to players.
     session.weapon = Weapon.objects.order_by("?").first()
+    logger.info("Choosing Winning Weapon")
 
     while (
         Weapon.objects.exclude(pk=session.weapon.pk).filter(holder__isnull=True).count()
@@ -64,6 +78,7 @@ def start_game(request, session_id):
 
     # Set winning room then assign remainder to players.
     session.room = Location.objects.filter(is_card=True).order_by("?").first()
+    logger.info("Choosing Winning Room")
 
     while (
         Location.objects.exclude(pk=session.room.pk)
@@ -85,6 +100,29 @@ def start_game(request, session_id):
                 room.save()
             else:
                 break
+
+    logger.info("Building Player list")
+
+    session_players = list()
+    miss_scarlett_id = Character.objects.get(name="Miss Scarlett")
+
+    miss_scarlett = Player.objects.filter(
+        user_character=miss_scarlett_id, game_session=session_id
+    ).first()
+
+    if miss_scarlett:
+        session_players.append(miss_scarlett_id.id)
+
+    players = (
+        Player.objects.exclude(user_character=miss_scarlett_id)
+        .filter(game_session=session_id)
+        .order_by("?")
+    )
+
+    for player in players:
+        session_players.append(player.user_character.id)
+
+    session.player_order = session_players
 
     session.save()
 
@@ -170,6 +208,25 @@ def accusation(request):
         data = {"correct": True}
     else:
         data = {"correct": False}
+
+    return JsonResponse(data)
+
+
+@method_decorator(csrf_exempt, name="dispatch")
+def end_turn(request, session_id):
+    logger.info("Building Player list")
+    session = Session.objects.get(pk=session_id)
+
+    session.next_player = session.next_player + 1
+    if session.next_player == len(session.player_order):
+        session.next_player = 0
+
+    session.save()
+
+    data = {
+        "message": "Turn complete",
+        "next_player": session.player_order[session.next_player],
+    }
 
     return JsonResponse(data)
 

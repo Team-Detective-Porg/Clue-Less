@@ -11,7 +11,7 @@ class CharacterSerializer(serializers.ModelSerializer):
 class SessionSerializer(serializers.ModelSerializer):
     class Meta:
         model = Session
-        fields = ("id", "character", "room", "weapon")
+        fields = ("id", "character", "room", "weapon", "player_order", "next_player")
 
 
 class WeaponSerializer(serializers.ModelSerializer):
