@@ -11,6 +11,8 @@ export default function Homepage(props) {
     var jsonQuery = require('json-query');
 
     // State information
+    const [isMobile, setIsMobile] = useState();
+
     const [characterData, setCharacterData] = useState([]);
 
     const [userSelections, setUserSelections] = useState({
@@ -19,6 +21,9 @@ export default function Homepage(props) {
     });
     
     useEffect(() => {
+        let windowWidth = window.screen.width < window.outerWidth ? window.screen.width : window.outerWidth;
+        setIsMobile(windowWidth < 750);
+
         // Load character data from server
         axios
             .get("http://localhost:8000/api/characters/?available=True")
@@ -40,12 +45,20 @@ export default function Homepage(props) {
     }
 
     return (
-        <Grid container spacing={7} direction="column" alignItems="center" alignContent="center">
-            <Grid item>
+        <Grid container 
+            spacing={7} 
+            direction="column" 
+            alignItems="center" 
+            alignContent="center">
+            <Grid item style={isMobile ? { display: 'none' }: {}}>
                 <h2>Welcome to Clue-Less</h2>
             </Grid>
 
-            <Grid item>
+            <Grid item style={isMobile ? {}: { display: 'none' }}>
+                <h3>Please join with a larger screen to play Clue-Less...</h3>
+            </Grid>
+
+            <Grid item style={isMobile ? { display: 'none' }: {}}>
                 <Grid container spacing={3} direction="row">
                     <Grid item>
                         <TextField
@@ -72,7 +85,7 @@ export default function Homepage(props) {
                 </Grid>
             </Grid>
 
-            <Grid item>
+            <Grid item style={isMobile ? { display: 'none' }: {}}>
                 <Link to={{pathname: "/lobby", state: {userName: userSelections.userName, character: jsonQuery(`characterData[name=${userSelections.character}].id`, {data: {characterData}}).value}}}>
                     <Button color="primary" variant="contained" onClick={handleSubmit}>
                         Submit
