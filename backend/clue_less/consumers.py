@@ -123,6 +123,14 @@ class GameConsumer(JsonWebsocketConsumer):
                         'move_type': 'notification',
                         'text': event['user_name'] + ' won the game!'
                     }))
+            elif (move == 'end_turn'):
+                response_data = event['response_data']
+                self.send(text_data=json.dumps({
+                    'type': 'game.message',
+                    'move_type': 'end_turn',
+                    'id': response_data['next_player'],
+                    'text': event['user_name'] + ' ended their turn'
+                }))
             else:
                 self.send(text_data=json.dumps(event))
         else:

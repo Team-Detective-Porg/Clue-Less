@@ -27,6 +27,8 @@ export default function Game(props) {
     const [playerChoice, setPlayerChoice] = useState("");
     const [currLocation, setCurrLocation] = useState(""); 
 
+    const [endTurnDisabled, setEndTurnDisabled] = useState();
+
     // Player Moves
     const [suggestion, setSuggestion] = useState({
         character: 0,
@@ -175,6 +177,12 @@ export default function Game(props) {
             setLocationsList(data['locations_list'])
             sendNotification(props.location.state.userName, 'move', props.location.state.character)
         }
+        else if (data['move_type'] === 'end_turn') {
+            if (data['id'] === props.location.state.character) {
+                setEndTurnDisabled(false);
+                alert('Your turn!');
+            }
+        }
     }
 
     function addCallbacks() {
@@ -231,7 +239,11 @@ export default function Game(props) {
 
     const endTurn = () => {
         axios.get('http://localhost:8000/endturn/1')
-             .catch(error => console.log(error));
+            .then(response => {
+                setEndTurnDisabled(true);
+                sendNotification(props.location.state.userName, 'end_turn', response.data)
+            })
+            .catch(error => console.log(error));
     }
 
     return (
@@ -512,7 +524,7 @@ export default function Game(props) {
                     </Grid>
                 
                     <Grid item>
-                        <Button variant="outlined" onClick={endTurn}>End Turn</Button>
+                        <Button disabled={endTurnDisabled} variant="outlined" onClick={endTurn}>End Turn</Button>
                     </Grid>
                 </Grid>
             </Grid>
